@@ -1,0 +1,52 @@
+/* styles.css */
+
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Press Start 2P', cursive; /* or any other pixel-style font */
+}
+
+.background {
+    width: 100%;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.logo {
+    /* Assuming you will add the logo image here */
+    width: 100%; /* Set this to the width of your logo */
+    height: 100%; /* Set this to the height of your logo */
+    background: url(/images/logo.png) no-repeat center center; /* Replace with the actual path to your logo image */
+    background-size: contain;
+    position: absolute;
+    margin-left: 5%
+}
+
+.start-button {
+    background-color: #ff00ff; /* Placeholder color, match this to your theme */
+    color: white;
+    padding: 20px 30px;
+    font-size: 1.2em;
+    border-radius: 20px;
+    position: absolute;
+    bottom: 25%; /* Adjust as needed */
+    left: 46.5%;
+}
+
+.start-button:hover {
+    background-color: #cc00cc; /* Darker shade for hover effect */
+}
+
+.logo-frame {
+    width: 70%;
+    height: 70%;
+    margin-top: 8%;
+    margin-left: 15%;
+}
