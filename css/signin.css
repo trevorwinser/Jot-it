@@ -10,6 +10,7 @@ table {
 }
 input[type="submit"] {
     display: block;
+    margin: 20px 0 auto auto;
 }
 input {
     margin: 20px auto 0;

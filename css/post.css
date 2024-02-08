@@ -1,0 +1,26 @@
+.post {
+    line-height: 32px;
+    background-color: #f5e72c;
+    padding: 20px;
+    padding-bottom: 15px;
+    margin: 20px;
+}
+.comment {
+    line-height: 32px;
+    background-color: #f5e72c;
+    padding: 20px;
+    padding-bottom: 10px;
+    margin: 20px;
+}
+button {
+    background-color: #3fd43f;
+    margin: 20px;
+    margin-bottom: 0;
+    border: none;
+    padding: 10px;
+}
+.author {
+    display: block;
+    font-style: italic;
+    color: #666666;
+}
