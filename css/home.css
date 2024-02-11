@@ -20,6 +20,8 @@ nav a {
 nav a:hover {
     background-color: #555;
 }
+
+
 ul {
     list-style-type: none;
     margin: 0;
@@ -31,4 +33,52 @@ ul {
     position: fixed;
     padding: 10px;
     font-size: 25px;
+}
+
+.sidebar {
+    position: fixed;
+    width: 250px; 
+    height: 100vh;
+    background-color: #d5b1ef;
+    padding-top: 10px; 
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.sidebar:hover {
+    width: 250px; 
+}
+
+.sidebar .profile-section img {
+    display: block; 
+    width: 100%; 
+    height: auto; 
+    border-radius: 50%; 
+    margin-bottom: 0.5em;
+}
+
+
+.bookmarks-container {
+    margin-top: 20px;
+}
+
+.bookmark {
+    position: relative; 
+    margin-bottom: 10px; 
+}
+
+.bookmark p {
+    position: absolute;
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    color: black;
+    font-weight: bold;
+    z-index: 10; 
+    white-space: nowrap; 
+}
+
+.bookmark img {
+    top: 0;
+    left: 0;
+    width: 100%; 
 }
