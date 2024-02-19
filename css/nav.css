@@ -4,8 +4,12 @@ body {
 }
 
 nav {
+    z-index: 2;
     background-color: #333;
     color: #fff;
+    position:fixed;
+    top: 0;
+    width: 100%;
     justify-content: space-between;
     padding: 10px;
 }
