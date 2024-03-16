@@ -8,31 +8,31 @@
     </head>
 
     <body>
-        <div class="group-form">
-        <form action="http://www.randyconnolly.com/tests/process.php" method="get">
+    <div class="group-form">
+        <form action="post.php" method="post">
 
         <div>
             <label for="title">Title</label><br>
-            <input type="text" name="title" class="form-control"> 
+            <input type="text" name="title" class="form-control" id="title"> 
 
         </div>
         <br><br>
         <div>
-            <label for="text">Text</label><br>
-            <textarea rows="5" class="form-control" name="text" ></textarea>
+            <label for="post">Text</label><br>
+            <textarea rows="5" class="form-control" name="post" id="post"></textarea>
         </div>
-            <button type="submit" value="Submit">Submit</button>
+            <input id="post_button" type="submit" value="Submit"></button>
             <button type="reset" value="Reset">Reset</button>
         <br><br>
         <div class="dropdown">
-            <button class="dropbtn">Select Category</button>
-            <div class="dropdown-content">
-              <a href="#">Category 1</a>
-              <a href="#">Category 2</a>
-              <a href="#">Category 3</a>
-            </div>
+            <label for="category">Category</label><br>
+            <select name="category" class="form-control" id="category">
+                <option value="Category 1">Category 1</option>
+                <option value="Category 2">Category 2</option>
+                <option value="Category 3">Category 3</option>
+            </select>
           </div>
-    </form>
+        </form>
     </div>
 
     </body>
