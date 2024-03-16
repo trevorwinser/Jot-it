@@ -7,8 +7,6 @@ $dbname = "jot-it";
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-
-
 // $sql = "INSERT INTO User
 // VALUES ('Joe', 'Mama', 'joemama@gmail.com', 'None', 'TRUE')";
 
