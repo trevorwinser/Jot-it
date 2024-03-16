@@ -14,7 +14,7 @@ textarea:focus{
     padding: 100px;
 }
 
-button[type=submit]{
+#post_button{
     background-color: #837CD6;
     border: none;
     color: white;
@@ -40,39 +40,3 @@ button[type=reset]{
 button[type=submit]:hover,button[type=reset]:hover {
     background-color: #b2adea
 }
-
-.dropbtn {
-    background-color: #7AB7FF;
-    color: white;
-    padding: 16px;
-    font-size: 16px;
-    border: none;
-  }
-  
-  .dropdown {
-    position: relative;
-    left: 10px;
-    display: inline-block;
-  }
-  
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f1f1f1;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-  }
-  
-  .dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-  }
-  
-  .dropdown-content a:hover {background-color: #ddd;}
-  
-  .dropdown:hover .dropdown-content {display: block;}
-  
-  .dropdown:hover .dropbtn {background-color: #435aec;}
