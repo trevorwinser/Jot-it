@@ -88,23 +88,45 @@
     <script>
     // Function to fetch new posts and update the homepage
     function fetchNewPosts() {
-        fetch('fetch_new_posts.php') 
-        .then(response => response.json())
-        .then(posts => {
-            const postboard = document.getElementById('postboard');
-            postboard.innerHTML = ''; // Clear existing posts 
-            posts.forEach(post => {
-                const postDiv = document.createElement('div');
-                postDiv.className = 'post';
-                postDiv.innerHTML = `<h2>${post.title}</h2><p>${post.body}</p>`;
-                postboard.appendChild(postDiv);
-            });
-        })
-        .catch(error => console.error('Error fetching new posts:', error));
-    }
-    // Fetch new posts every 30 seconds 
-    setInterval(fetchNewPosts, 30000);
-    window.addEventListener('new-post', fetchNewPosts);
-    </script>
+    fetch('fetch_new_posts.php')
+    .then(response => response.json())
+    .then(posts => {
+        const postboard = document.getElementById('postboard');
+        const postboardImg = document.getElementById('postboardImg');
+        postboard.innerHTML = ''; // Clear existing posts 
+        postboardImg.innerHTML = ''; // Also clear existing posts in the image board
+
+        let hasPosts = false; // Flag to check if there are any posts
+        let hasImagePosts = false; // Separate flag for image posts
+
+        posts.forEach(post => {
+            hasPosts = true; // There's at least one post
+            const postDiv = document.createElement('div');
+            postDiv.className = 'post';
+            let postContent = `<h2>${post.title}</h2><p>${post.body}</p>`;
+            if (post.image) {
+                hasImagePosts = true; // There's at least one image post
+                postContent += `<img src="${post.image}" alt="Post image" style="max-width:100%;">`;
+                postDiv.innerHTML = postContent;
+                postboardImg.appendChild(postDiv); // Append to image board
+            } else {
+                postDiv.innerHTML = postContent;
+                postboard.appendChild(postDiv); // Append to regular board
+            }
+        });
+
+        // Set visibility based on whether there are posts
+        postboard.style.display = hasPosts ? 'block' : 'none';
+        postboardImg.style.display = hasImagePosts ? 'block' : 'none'; // Set display based on image posts
+    })
+    .catch(error => console.error('Error fetching new posts:', error));
+}
+
+// Initial call and setup for refreshing posts
+fetchNewPosts();
+setInterval(fetchNewPosts, 30000);
+
+
+</script>
 </body>
 </html>

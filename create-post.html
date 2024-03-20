@@ -9,13 +9,20 @@
 
     <body>
         <div class="group-form">
-            <form id="createPostForm" method="post">
+            <form id="createPostForm" method="post" enctype="multipart/form-data">
 
                 <div>
                     <label for="title">Title</label><br>
                     <input type="text" name="title" class="form-control" id="title"> 
                 </div>
                 <br><br>
+               
+                <div>
+                    <label for="image">Image</label><br>
+                    <input type="file" name="image" class="form-control" id="image">
+                </div>
+                <br><br>
+
                 <div>
                     <label for="post">Text</label><br>
                     <textarea rows="5" class="form-control" name="post" id="post"></textarea>
