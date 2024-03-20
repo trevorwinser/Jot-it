@@ -13,13 +13,12 @@ if ($conn->connect_error) {
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     // Prepare statement
-    $stmt = $conn->prepare("INSERT INTO post (title, body, category, date) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("ssss", $title, $post, $category, $datetime);
+    $stmt = $conn->prepare("INSERT INTO post (title, body, date) VALUES (?, ?, ?)");
+    $stmt->bind_param("sss", $title, $post, $datetime);
 
     // Set parameters and execute
     $title = $_POST['title'];
     $post = $_POST['post'];
-    $category = $_POST['category'];
     $datetime = date('Y-m-d H:i:s');
 
     if ($stmt->execute()) {
