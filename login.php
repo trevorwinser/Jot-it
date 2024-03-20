@@ -18,16 +18,16 @@ if(isset($_POST["username"]) && isset($_POST["password"]) && !empty($_POST["user
     
     if ($stmt->execute()) {
         $result = $stmt->get_result();
-        $result = $stmt->get_result();
         while ($row = $result->fetch_assoc()) {
             if (strcmp($row['username'], $username) == 0 && strcmp($row['password'], password_hash($password, PASSWORD_DEFAULT)) == 0) {
                 session_start();
-                $_SESSION['username'] = $username;      // Can access across pages.
+                $_SESSION['username'] = $username;  // Can access across pages.
+                echo "<p>User found</p>";
             } else {
                 if (strcmp($row['username'], $username) == 0) {
                     echo "<p>Username could not be found</p>";
                 } else {
-                    echo "<p>Password is incorrect"
+                    echo "<p>Password is incorrect";
                 }
             }
         }
@@ -38,10 +38,10 @@ if(isset($_POST["username"]) && isset($_POST["password"]) && !empty($_POST["user
     $stmt->close();
 } else {
     echo "<p>All fields are required</p>";
-    if (isset($_POST["username"]) || !empty($_POST["username"]))
-        echo "<p>Password is missing</p>";
-    else
+    if (!isset($_POST["username"]) || !empty($_POST["username"]))
         echo "<p>Username is missing</p>";
+    else
+        echo "<p>Password is missing</p>";
 }
 
 $conn->close();
