@@ -1,46 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <link rel="stylesheet" href="css/create-post.css">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Post</title>
-</head>
-<body>
-<div class="group-form">
-    <form id="createPostForm" method="post">
-        <div>
-            <label for="title">Title</label><br>
-            <input type="text" name="title" class="form-control" id="title"> 
-        </div>
-        <br><br>
-        <div>
-            <label for="post">Text</label><br>
-            <textarea rows="5" class="form-control" name="post" id="post"></textarea>
-        </div>
-        <input type="submit" value="Submit">
-        <button type="reset" value="Reset">Reset</button>
-        <br><br>
-    </form>
-</div>
+    <head>
+        <link rel="stylesheet" href="css/create-post.css">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Create Post</title>
+    </head>
 
-<script>
-    document.getElementById('createPostForm').addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent the default form submission
+    <body>
+        <div class="group-form">
+            <form id="createPostForm" method="post">
 
-        const formData = new FormData(this);
+                <div>
+                    <label for="title">Title</label><br>
+                    <input type="text" name="title" class="form-control" id="title"> 
+                </div>
+                <br><br>
+                <div>
+                    <label for="post">Text</label><br>
+                    <textarea rows="5" class="form-control" name="post" id="post"></textarea>
+                </div>
+                <button type="submit">Submit</button>
+                <button type="reset">Reset</button>
+                <br><br>
+            </form>
+        </div>
+        <script>
+            document.getElementById('createPostForm').addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent the default form submission
         
-        fetch('create-post.php', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.text())
-        .then(result => {
-            alert("New post created successfully");
-            console.log(result);
-        })
-        .catch(error => console.error('Error:', error));
-    });
-</script>
-</body>
+                const formData = new FormData(this);
+        
+                fetch('create-post.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.text())
+                .then(result => {
+                    alert("New post created successfully");
+                    console.log(result);
+                })
+                .catch(error => console.error('Error:', error));
+            });
+        </script>
+    </body>
 </html>

@@ -14,7 +14,7 @@ textarea:focus{
     padding: 100px;
 }
 
-#post_button{
+button {
     background-color: #837CD6;
     border: none;
     color: white;
@@ -24,19 +24,4 @@ textarea:focus{
     display: inline-block;
     font-size: 16px;
     position: relative;
-}
-button[type=reset]{
-    background-color: #837CD6; 
-    border: none;
-    color: white;
-    padding: 15px 15px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    position: relative;
-    left: 15px;
-}
-button[type=submit]:hover,button[type=reset]:hover {
-    background-color: #b2adea
 }
