@@ -7,19 +7,31 @@ $dbname = "jot-it";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-if($_SERVER['REQUEST_METHOD'] == "POST")
-    {
-        $title = $_POST['title'];
-        $post = $_POST['post'];
-        $category = $_POST['category'];
-        $datetime = date('Y-m-d H:i:s');
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 
-        $sql = "INSERT INTO post (title, body, category, date) VALUES ('$title', '$post', '$category', '$datetime')";
-    if ($conn->query($sql) === TRUE){
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    // Prepare statement
+    $stmt = $conn->prepare("INSERT INTO post (title, body, category, date) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("ssss", $title, $post, $category, $datetime);
+
+    // Set parameters and execute
+    $title = $_POST['title'];
+    $post = $_POST['post'];
+    $category = $_POST['category'];
+    $datetime = date('Y-m-d H:i:s');
+
+    if ($stmt->execute()) {
         echo "New post created successfully";
+    } else {
+        echo "Error: " . $stmt->error;
     }
-    else{
-        echo "Error: " . $sql . "<br>" . $conn->error;
-    }
-    }
+
+    // Close statement
+    $stmt->close();
+}
+
+// Close connection
+$conn->close();
 ?>
