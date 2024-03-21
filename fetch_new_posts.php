@@ -14,7 +14,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT title, body, image FROM post ORDER BY date DESC LIMIT 5";
+$sql = "SELECT title, body, image, id FROM post ORDER BY date DESC LIMIT 5";
 $result = $conn->query($sql);
 $posts = [];
 
