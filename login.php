@@ -46,7 +46,7 @@
         </tr>
         <tr> 
             <td>
-                <a href="register.html">New Here? Create Account</a>
+                <a href="register.php">New Here? Create Account</a>
             </td>
         </tr>
         </form>
