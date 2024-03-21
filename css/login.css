@@ -15,3 +15,7 @@ input[type="submit"] {
 input {
     margin: 20px auto 0;
 }
+#error {
+    color: red;
+    font-weight: bold;
+}
