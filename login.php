@@ -19,7 +19,7 @@
             <td>
                 <?php
                     if(isset($_GET['message'])) {
-                        echo '<p id="error">' . $_GET['message'] . '</p>';
+                        echo '<p id="message">' . $_GET['message'] . '</p>';
                     }
                 ?>
             </td>

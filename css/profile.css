@@ -1,48 +1,18 @@
-body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    font-family: 'Press Start 2P', cursive;
+body {
     background-color: #d5b1ef; 
 }
 
-.edit-profile-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-.edit-profile-form {
+form {
     background-color: white;
+    margin: 20px auto;
+    width: 20%;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    width: 300px;
+    justify-content: center;
 }
-
-.form-group {
-    margin-bottom: 15px;
+h2 {
+    text-align: auto;
 }
-
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-}
-
-.form-group input[type="text"],
-.form-group select {
-    width: 95%;
-    padding: 10px;
-    border-radius: 4px;
-    border: 1px solid #ddd;
-}
-
-.form-group input[type="file"] {
-    width: 100%;
-}
-
-.save-btn {
+input[type=submit] {
     background-color: #ff00ff;
     color: white;
     padding: 10px 15px;
@@ -52,25 +22,15 @@ body, html {
     width: 100%;
     font-size: 1em;
 }
-
-.save-btn:hover {
-    background-color: #cc00cc;
+input {
+    width: 100%;
+}
+label {
+    text-align: center;
+    margin: auto;
 }
 
-.home-btn {
-    display: block;
-    position: absolute; /* Position it independently from other elements */
-    top: 10px; /* Distance from the top */
-    left: 10px; /* Distance from the left */
-    background-color: #ff00ff; /* Background color */
-    color: white; /* Text color */
-    padding: 10px 15px; /* Padding inside the button */
-    border-radius: 4px; /* Rounded corners */
-    text-decoration: none; /* Remove the underline from the link */
-    font-size: 0.9em; /* Size of the text */
-    z-index: 10; /* Make sure it's above other elements */
-}
-
-.home-btn:hover {
-    background-color: #cc00cc; /* Color when hovered */
+#message {
+    color: red;
+    font-weight: bold;
 }

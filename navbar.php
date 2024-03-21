@@ -13,7 +13,7 @@
                 if(isset($_SESSION['username'])) {
                     echo '<span class="signed-in">Signed in as: ' . $_SESSION['username'] . '</span>';
                     echo '<a href="logout.php">Log Out</a>';
-                    echo '<a href="profile.html">Profile</a>';
+                    echo '<a href="profile.php">Profile</a>';
                 } else {
                     echo '<a href="login.php">Log In</a>';
                     echo '<a href="register.php">Register</a>';
