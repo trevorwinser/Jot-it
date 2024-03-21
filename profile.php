@@ -78,7 +78,15 @@
                 if ($image['error'] == UPLOAD_ERR_OK) {
                     // Process uploaded image
                     $image_data = file_get_contents($image['tmp_name']);
-                    // You can save $image_data to the database or server directory
+                    // Update image in the database
+                    $stmt = $conn->prepare("UPDATE User SET image = ? WHERE username = ?");
+                    $stmt->bind_param('bs', $image_data, $username);
+                    if (!$stmt->execute()) {
+                        header('Location: profile.php?message=Failed to update image');
+                        exit;
+                    } else {
+                        header('Location: profile.php?message=Profile updated successfully');
+                    }
                 }
 
                 // Update password first so no need to check new username
@@ -93,6 +101,7 @@
                         header('Location: profile.php?message=Profile updated successfully');
                     }
                 }
+
                 // Update username if provided
                 if (!empty($new_username)) {
                     try {
@@ -109,7 +118,6 @@
                     } catch (mysqli_sql_exception $e) {
                         header('Location: profile.php?message=Username is taken');
                     }
-                    
                 }
             } else {
                 header('Location: profile.php?message=User not found');
@@ -122,5 +130,6 @@
 
     $conn->close();
     ?>
+
 </body>
 </html>

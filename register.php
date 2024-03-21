@@ -8,11 +8,9 @@
     <link rel="stylesheet" href="css/nav.css">
 </head>
 <body>
-    <header>
-        <nav>
-            <a href="launch-page.html">Home</a>
-        </nav>
-    </header>
+    <?php
+        include 'navbar.php';
+    ?>
     <table>
         <tr>
             <th>Register</th>
@@ -46,7 +44,7 @@
         </tr>
         <tr> 
             <td>
-                <a href="signin.html">Have an Account? Sign In</a>
+                <a href="signin.php">Have an Account? Sign In</a>
             </td>
         </tr>
         </form>

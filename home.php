@@ -12,38 +12,50 @@
     ?>
     <div class="sidebar">
         <div class="profile-section">
-                <img src="images/profile-icon.png" alt="Profile"> </a>
-                <p>Username:</p>
-                <p>Pronouns:</p>
+            <?php
             
-        </div>
-        <div class="bookmarks-container">
-            <div class="bookmark" id="bookmark1">
-                <a href="#">
-                    <p>Bookmark 1</p>
-                </a>
-                <img src="images/bookmark1.png" alt="Bookmark 1">
-            </div>
-            <div class="bookmark" id="bookmark2">
-                <a href="#">
-                    <p>Bookmark 2</p>
-                </a>
-                <img src="images/bookmark2.png" alt="Bookmark 2">
-            </div>
-            <div class="bookmark" id="bookmark3">
-                <a href="#">
-                    <p>Bookmark 3</p>
-                </a>
-                <img src="images/bookmark3.png" alt="Bookmark 3">
-            </div>
-            <div class="bookmark" id="bookmark4">
-                <a href="#">
-                    <p>Bookmark 4</p>
-                </a>
-                <img src="images/bookmark4.png" alt="Bookmark 4">
-            </div>
+            $servername = "localhost";
+            $username = "root";
+            $password = "";
+            $dbname = "jot-it";
+
+            // Create connection
+            $conn = new mysqli($servername, $username, $password, $dbname);
+
+            // Check connection
+            if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+            }
+
+            if(isset($_SESSION['username'])) {
+                $username = $_SESSION['username'];
+
+                $stmt = $conn->prepare("SELECT image FROM User WHERE username = ?");
+                $stmt->bind_param('s', $username);
+
+                if ($stmt->execute()) {
+                    $result = $stmt->get_result();
+                    if ($result->num_rows > 0) {
+                        $row = $result->fetch_assoc();
+                        $profile_picture = $row['image']; // Assuming the column name for the image is 'image'
+                        
+                        // Display profile picture if available
+                        if ($profile_picture) {
+                            echo '<img src="data:image/jpeg;base64,' . base64_encode($profile_picture) . '" alt="Profile Picture">';
+                        } else {
+                            // Display default profile picture if no image is found
+                            echo '<img src="images/profile-icon.png" alt="Profile Picture">';
+                        }
+                    }
+                }
+            }
+
+            
+            $conn->close();
+            ?>
         </div>
     </div>
+
 
     <!-- Main content -->
     <main>
