@@ -37,7 +37,7 @@
                     $result = $stmt->get_result();
                     if ($result->num_rows > 0) {
                         $row = $result->fetch_assoc();
-                        $profile_picture = $row['image']; // Assuming the column name for the image is 'image'
+                        $profile_picture = $row['image'];    // Assuming the column name for the image is 'image'
                         
                         // Display profile picture if available
                         if ($profile_picture) {
@@ -61,32 +61,8 @@
     <main>
         <div id="postboardContainer">
             <div id="postboard">
-                <div class="post">
-                    
-                </div>
-                <div class="post">
-                    
-                </div>
-                <div class="post">
-                    
-                </div>
-                <div class="post">
-                    
-                </div>
             </div>
             <div id="postboardImg">
-                <div class="post">
-                    
-                </div>
-                <div class="post">
-                     
-                </div>
-                <div class="post">
-                   
-                </div>
-                <div class="post">
-                    
-                </div>
             </div>
         </div>
     </main>
@@ -113,9 +89,11 @@
                 hasImagePosts = true; // There's at least one image post
                 postContent += `<img src="${post.image}" alt="Post image" style="max-width:100%;">`;
                 postDiv.innerHTML = postContent;
+                postDiv.addEventListener('click', () => {window.location.href = 'postDetails.php?id=' + post.id;});
                 postboardImg.appendChild(postDiv); // Append to image board
             } else {
                 postDiv.innerHTML = postContent;
+                postDiv.addEventListener('click', () =>   {window.location.href = 'postDetails.php?id=' + post.id;});
                 postboard.appendChild(postDiv); // Append to regular board
             }
         });
