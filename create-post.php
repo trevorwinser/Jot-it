@@ -1,45 +1,61 @@
-<?php
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="css/create-post.css">
+    <link rel="stylesheet" href="css/font.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Post</title>
+</head>
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "jot-it";
+<body>
+    <?php
+        include 'navbar.php';
+    ?>
+    <?php
+        include 'verify-login.php';
+    ?>
+    <div class="group-form">
+        <form id="createPostForm" method="post" enctype="multipart/form-data">
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+            <div>
+                <label for="title">Title</label><br>
+                <input type="text" name="title" class="form-control" id="title"> 
+            </div>
+            <br><br>
+           
+            <div>
+                <label for="image">Image</label><br>
+                <input type="file" name="image" class="form-control" id="image">
+            </div>
+            <br><br>
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    $title = $_POST['title'];
-    $post = $_POST['post'];
-    $datetime = date('Y-m-d H:i:s');
-
-    // Check if a file was uploaded
-    if (isset($_FILES['image']) && $_FILES['image']['error'] == UPLOAD_ERR_OK) {
-        // Open the file and read its contents
-        $tmpName = $_FILES['image']['tmp_name'];
-        $fp = fopen($tmpName, 'rb'); // Read binary data
-        $image = fread($fp, filesize($tmpName));
-        fclose($fp);
-    } else {
-        $image = null; // No image uploaded
-    }
-
-    // Prepare statement with BLOB
-    $stmt = $conn->prepare("INSERT INTO post (title, body, date, image) VALUES (?, ?, ?, ?)");
-    // bind_param doesn't work directly with BLOBs, use bind_param and send_long_data instead
-    $null = NULL;
-    $stmt->bind_param("sssb", $title, $post, $datetime, $null);
-    $stmt->send_long_data(3, $image); // Send binary data
-
-    if ($stmt->execute()) {
-        echo "New post created successfully";
-    } else {
-        echo "Error: " . $stmt->error;
-    }
-    $stmt->close();
-}
-$conn->close();
-?>
+            <div>
+                <label for="post">Text</label><br>
+                <textarea rows="5" class="form-control" name="post" id="post"></textarea>
+            </div>
+            <button type="submit">Submit</button>
+            <button type="reset">Reset</button>
+            <br><br>
+        </form>
+    </div>
+    <script>
+        document.getElementById('createPostForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+    
+            const formData = new FormData(this);
+    
+            fetch('insert-post.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(result => {
+                alert("New post created successfully");
+                console.log(result);
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>

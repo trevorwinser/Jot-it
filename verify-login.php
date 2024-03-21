@@ -21,11 +21,11 @@ if(isset($_SESSION['username'])) {
     if ($stmt->execute()) {
         $result = $stmt->get_result();
     } else {
-        header("Location: login.html"); // Change 
+        header("Location: login.php?message=Log in required"); // Change 
         exit();
     }
 } else {
-    header("Location: login.html");
+    header("Location: login.php?message=Log in required");
     exit();
 }
 ?>

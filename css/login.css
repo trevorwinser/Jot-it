@@ -19,3 +19,8 @@ input {
     color: red;
     font-weight: bold;
 }
+
+p {
+    text-align: center;
+    font-size: 20px;
+}

@@ -8,11 +8,9 @@
     <link rel="stylesheet" href="css/nav.css">
 </head>
 <body>
-    <header>
-        <nav>
-            <a href="launch-page.html">Home</a>
-        </nav>
-    </header>
+    <?php
+        include 'navbar.php';
+    ?>
     <table>
         <tr>
             <th>Log In</th>

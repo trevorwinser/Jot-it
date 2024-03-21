@@ -5,29 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="css/home.css">
-    <link rel="stylesheet" href="css/nav.css">
 </head>
 <body>
-    <header>
-        <nav>
-
-            <a href="launch-page.html">Home</a>
-            <a href="create-post.html">Create Post</a>
-            <div class="right-side">
-            <?php 
-                session_start();
-                if(isset($_SESSION['username'])) {
-                    echo '<span class="signed-in">Signed in as: ' . $_SESSION['username'] . '</span>';
-                    echo '<a href="logout.php">Log Out</a>';
-                    echo '<a href="profile.html">Profile</a>';
-                } else {
-                    echo '<a href="login.php">Log In</a>';
-                }
-            ?>
-            </div>
-        </nav>
-    </header>
-
+    <?php
+    include 'navbar.php';
+    ?>
     <div class="sidebar">
         <div class="profile-section">
                 <img src="images/profile-icon.png" alt="Profile"> </a>
