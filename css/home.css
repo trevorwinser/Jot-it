@@ -68,6 +68,7 @@ main {
 
 body {
     overflow-y:auto; 
+    background-color: aliceblue;
 }
 
 #postboardContainer {
@@ -83,7 +84,6 @@ body {
     min-height: 100vh;
     overflow-y: auto; 
     position: relative;
-    background-color: aliceblue;
     justify-content: center;
 }
 
