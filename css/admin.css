@@ -12,3 +12,10 @@ th, td {
 th {
     background-color: #f2f2f2;
 }
+img {
+    display: block; 
+    width: 10%; 
+    height: auto; 
+    border-radius: 50%; 
+    margin-bottom: 0.5em;
+}
