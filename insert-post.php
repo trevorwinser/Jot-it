@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -15,6 +17,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $title = trim($_POST['title']);
     $post = trim($_POST['post']);
     $datetime = date('Y-m-d H:i:s');
+    if(isset($_SESSION['id'])) {
+        $user_id = $_SESSION['id'];
+    }else {
+        echo "User not authenticated";
+        echo  $_SESSION['id'];
+        exit;
+    }
 
     if (strlen($title) > 100 || strlen($post) > 1000) {
         die("Title or post body exceeds allowed length.");
@@ -38,10 +47,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
 
     // Prepare statement with BLOB
-    $stmt = $conn->prepare("INSERT INTO post (title, body, date, image) VALUES (?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO post (title, body, date, image, user_id) VALUES (?, ?, ?, ?, ?)");
     // bind_param doesn't work directly with BLOBs, use bind_param and send_long_data instead
     $null = NULL;
-    $stmt->bind_param("sssb", $title, $post, $datetime, $null);
+    $stmt->bind_param("ssssi", $title, $post, $datetime, $null, $user_id);
     $stmt->send_long_data(3, $image); // Send binary data
 
     if ($stmt->execute()) {
