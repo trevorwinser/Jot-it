@@ -9,7 +9,7 @@
 <body>
 
     <?php
-    session_start();
+
     include 'navbar.php';
     include 'verify-login.php';
 
