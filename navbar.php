@@ -1,10 +1,12 @@
-
-<link rel="stylesheet" href="css/nav.css">
-<link rel="stylesheet" href="css/font.css">
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/nav.css">
+    <link rel="stylesheet" href="css/font.css">
+</head>
 <header>
         <nav>
-
             <a href="home.php">Home</a>
             <a href="create-post.php">Create Post</a>
             <div class="right-side">
