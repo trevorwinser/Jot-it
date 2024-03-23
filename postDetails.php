@@ -96,7 +96,10 @@ if (isset($_GET['id'])) {
                 echo '<p class="success">Comment posted successfully.</p>';
             } else {
                 echo '<p class="error">Error posting comment.</p>';
+                
             }
+            header("Location: ".$_SERVER['REQUEST_URI']);
+            exit;
         }
         
         
