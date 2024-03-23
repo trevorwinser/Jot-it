@@ -25,7 +25,7 @@ if(isset($_POST["username"]) && isset($_POST["password"]) && !empty($_POST["user
             $row = $result->fetch_assoc();
             if (password_verify($password, $row['password'])) {
                 $_SESSION['username'] = $username;
-                $_SESSION['admin'] = $row['admin']
+                $_SESSION['admin'] = $row['admin'];
                 header("Location: home.php");
                 exit();
             } else {
@@ -40,9 +40,6 @@ if(isset($_POST["username"]) && isset($_POST["password"]) && !empty($_POST["user
         header("Location: login.php?message=Error: " . $stmt->error);
         exit();
     }
-
-    $stmt->close();
-    $conn->close();
 } else {
     header("Location: login.php?message=All fields are required");
     exit();
