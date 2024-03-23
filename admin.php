@@ -45,7 +45,7 @@
         if ($search_by == "username") {
             $sql = "SELECT * FROM user WHERE username LIKE '%$search_query%'";
         } else {
-            $sql = "SELECT user.* FROM user INNER JOIN post ON user.id = post.user_id WHERE post.title LIKE '%$search_query%'";
+            $sql = "SELECT user.*, post.image AS profile_picture FROM user LEFT JOIN post ON user.id = post.user_id WHERE post.title LIKE '%$search_query%'";
         }
         $result = $conn->query($sql);
     } else {
@@ -67,8 +67,16 @@
         // Output data of each row
         while($row = $result->fetch_assoc()) {
             echo "<tr>";
-            foreach ($row as $value) {
-                echo "<td>".$value."</td>";
+            foreach ($row as $key => $value) {
+                if ($key === 'image') {
+                    if ($value) {
+                        echo '<td><img src="data:image/jpeg;base64,' . base64_encode($value) . '" alt="Profile Picture"></td>';
+                    } else {
+                        echo '<td><img src="images/profile-icon.png" alt="Profile Picture"></td>';
+                    }
+                } else {
+                    echo "<td>".$value."</td>";
+                }
             }
             echo "<td><a href='edit-user.php?user_id=".$row['id']."'>Edit</a></td>"; // Edit link
             echo "</tr>";
