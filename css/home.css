@@ -93,19 +93,28 @@ body {
 }
 
 #postboard .post, #postboardImg .post {
-    height: auto; /* Changed from fixed height to auto for dynamic resizing */
+    height: auto; 
     background-color: paleturquoise;
-    box-sizing: border-box; /* Changed from content-box for better box model handling */
+    box-sizing: border-box; 
     width: 80%; 
     margin-top: 2em;
     margin-left: 10%; 
     padding: 1em 2em;
     border: 5px solid rgb(152, 228, 228);
-    overflow: hidden; /* Keeps content within the box */
+    overflow: hidden; 
 }
 
 #postboard .post img, #postboardImg .post img {
-    max-width: 100%; /* Ensure image does not exceed its container */
-    height: auto; /* Maintain aspect ratio */
-    display: block; /* Ensures the image doesn't have extra space below */
+    max-width: 100%; 
+    height: auto; 
+    display: block; 
 }
+
+/* Add hover effect on posts */
+#postboard .post:hover, #postboardImg .post:hover {
+    transform: scale(1.03); 
+    background-color: #aee1e1; 
+    cursor: pointer; 
+    transition: transform 0.3s ease, background-color 0.3s ease; 
+}
+
