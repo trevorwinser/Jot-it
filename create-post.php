@@ -20,7 +20,7 @@
 
             <div>
                 <label for="title">Title</label><br>
-                <input type="text" name="title" class="form-control" id="title"> 
+                <input type="text" name="title" class="form-control" id="title" maxlength="100" required>  
             </div>
             <br><br>
            
@@ -32,7 +32,7 @@
 
             <div>
                 <label for="post">Text</label><br>
-                <textarea rows="5" class="form-control" name="post" id="post"></textarea>
+                <textarea rows="5" class="form-control" name="post" id="post" maxlength="1000" required></textarea>
             </div>
             <button type="submit">Submit</button>
             <button type="reset">Reset</button>
