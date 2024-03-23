@@ -9,36 +9,10 @@
 <body>
 
     <?php
-        include 'navbar.php';
-    ?>
-    <?php
-        include 'verify-login.php';
-    ?>
-    
-    <div>
-    <form action="profile.php" method="post" enctype="multipart/form-data">
-    <h2>Update Profile</h2>
-        <?php
-            if(isset($_GET['message'])) {
-                echo '<p id="message">' . $_GET['message'] . '</p>';
-            }
-        ?>
-        <label for="image">Profile Image:</label><br>
-        <input type="file" id="image" name="image"><br><br>
+    session_start();
+    include 'navbar.php';
+    include 'verify-login.php';
 
-        <label for="new_username">New Username:</label><br>
-        <input type="text" id="new_username" name="new_username"><br><br>
-
-        <label for="current_password">Current Password:</label><br>
-        <input type="password" id="current_password" name="current_password"><br><br>
-
-        <label for="new_password">New Password:</label><br>
-        <input type="password" id="new_password" name="new_password"><br><br>
-
-        <input type="submit" value="Save">
-    </form>
-    </div>
-    <?php
     $servername = "localhost";
     $username = "root";
     $password = "";
@@ -50,86 +24,83 @@
         die("Connection failed: " . $conn->connect_error);
     }
 
+    // Initialize message
+    $message = '';
+
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
         // Retrieve current user details
         $username = $_SESSION['username'];
+        $current_password = $_POST['current_password'];
+        $new_username = $_POST['new_username'];
+        $new_password = $_POST['new_password'];
+        $image = $_FILES['image'];
 
-        $stmt = $conn->prepare("SELECT * FROM User WHERE username = ?");
+        // Check if current password is correct
+        $stmt = $conn->prepare("SELECT password FROM User WHERE username = ?");
         $stmt->bind_param('s', $username);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
 
-        if ($stmt->execute()) {
-            $result = $stmt->get_result();
-            if ($result->num_rows > 0) {
-                $row = $result->fetch_assoc();
-
-                // Verify current password
-                $current_password = $_POST['current_password'];
-                if (!password_verify($current_password, $row['password'])) {
-                    header('Location: profile.php?message=Incorrect current password');
-                    exit;
-                }
-
-                // If current password is correct, proceed with other updates
-                $new_username = $_POST['new_username'];
-                $new_password = $_POST['new_password'];
-                $image = $_FILES['image'];
-
-                // Upload new image
+        if ($result->num_rows === 0) {
+            $message = 'User not found';
+        } else {
+            $row = $result->fetch_assoc();
+            if (!password_verify($current_password, $row['password'])) {
+                $message = 'Incorrect current password';
+            } else {
+                // Proceed with updates if current password is correct
+                // Update the image if a new one has been uploaded
                 if ($image['error'] == UPLOAD_ERR_OK) {
-                    // Process uploaded image
-                    $image_data = file_get_contents($image['tmp_name']);
-                    // Update image in the database
+                    $imageData = file_get_contents($image['tmp_name']); // Get binary data
                     $stmt = $conn->prepare("UPDATE User SET image = ? WHERE username = ?");
-                    $stmt->bind_param('bs', $image_data, $username);
-                    if (!$stmt->execute()) {
-                        header('Location: profile.php?message=Failed to update image');
-                        exit;
-                    } else {
-                        header('Location: profile.php?message=Profile updated successfully');
-                    }
+                    $null = NULL; // Placeholder for blob data
+                    $stmt->bind_param("bs", $null, $username);
+                    $stmt->send_long_data(0, $imageData); // Send binary data
+                    $stmt->execute();
+                    $message = $stmt->error ? 'Failed to update image' : 'Profile updated successfully';
+                    $stmt->close();
                 }
 
-                // Update password first so no need to check new username
+                // Update password if provided
                 if (!empty($new_password)) {
                     $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
                     $stmt = $conn->prepare("UPDATE User SET password = ? WHERE username = ?");
                     $stmt->bind_param('ss', $hashed_password, $username);
-                    if (!$stmt->execute()) {
-                        header('Location: profile.php?message=Failed to update password');
-                        exit;
-                    } else {
-                        header('Location: profile.php?message=Profile updated successfully');
-                    }
+                    $stmt->execute();
+                    $message = $stmt->error ? 'Failed to update password' : 'Profile updated successfully';
+                    $stmt->close();
                 }
 
                 // Update username if provided
                 if (!empty($new_username)) {
-                    try {
-                        $stmt = $conn->prepare("UPDATE User SET username = ? WHERE username = ?");
-                        $stmt->bind_param('ss', $new_username, $username);
-                        if (!$stmt->execute()) {
-                            header('Location: profile.php?message=Failed to update username');
-                            exit;
-                        } else {
-                            // Update session username
-                            header('Location: profile.php?message=Profile updated successfully');
-                            $_SESSION['username'] = $new_username;
-                        }
-                    } catch (mysqli_sql_exception $e) {
-                        header('Location: profile.php?message=Username is taken');
-                    }
+                    $stmt = $conn->prepare("UPDATE User SET username = ? WHERE username = ?");
+                    $stmt->bind_param('ss', $new_username, $username);
+                    $stmt->execute();
+                    $message = $stmt->error ? 'Failed to update username' : 'Profile updated successfully';
+                    $_SESSION['username'] = $new_username; // Update session username
+                    $stmt->close();
                 }
-            } else {
-                header('Location: profile.php?message=User not found');
             }
-        } else {
-            echo "Error: " . $stmt->error;
         }
-        $stmt->close();
     }
-
-    $conn->close();
     ?>
+
+    <div>
+    <form action="profile.php" method="post" enctype="multipart/form-data">
+        <h2>Update Profile</h2>
+        <p id="message"><?php echo $message; ?></p>
+        <label for="image">Profile Image:</label><br>
+        <input type="file" id="image" name="image"><br><br>
+        <label for="new_username">New Username:</label><br>
+        <input type="text" id="new_username" name="new_username"><br><br>
+        <label for="current_password">Current Password:</label><br>
+        <input type="password" id="current_password" name="current_password"><br><br>
+        <label for="new_password">New Password:</label><br>
+        <input type="password" id="new_password" name="new_password"><br><br>
+        <input type="submit" value="Save">
+    </form>
+    </div>
 
 </body>
 </html>
