@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $stmt = $conn->prepare("INSERT INTO post (title, body, date, image, user_id) VALUES (?, ?, ?, ?, ?)");
     // bind_param doesn't work directly with BLOBs, use bind_param and send_long_data instead
     $null = NULL;
-    $stmt->bind_param("ssssi", $title, $post, $datetime, $null, $user_id);
+    $stmt->bind_param("sssbi", $title, $post, $datetime, $null, $user_id);
     $stmt->send_long_data(3, $image); // Send binary data
 
     if ($stmt->execute()) {

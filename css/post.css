@@ -31,3 +31,9 @@ button {
 img{
     width: 50%;
 }
+
+textarea{
+    width: 50%;
+    height: 300px;
+    resize: none;
+}
