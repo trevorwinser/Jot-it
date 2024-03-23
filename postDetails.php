@@ -16,7 +16,7 @@ if ($conn->connect_error) {
 }
 
 echo '<link rel="stylesheet" href="css/post.css">';
-
+ob_start();
 if (isset($_GET['id'])) {
     $post_id = $_GET['id'];
     $stmt = $conn->prepare("SELECT * FROM post WHERE id = ?");
@@ -101,6 +101,7 @@ if (isset($_GET['id'])) {
             header("Location: ".$_SERVER['REQUEST_URI']);
             exit;
         }
+        ob_end_flush();
         
         
     } else {
