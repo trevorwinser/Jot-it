@@ -16,7 +16,7 @@ if(isset($_POST["username"]) && isset($_POST["password"]) && !empty($_POST["user
     $username = $_POST["username"];
     $password = $_POST["password"];
     
-    $stmt = $conn->prepare("SELECT password FROM User WHERE username = ?");
+    $stmt = $conn->prepare("SELECT password, admin FROM User WHERE username = ?");
     $stmt->bind_param('s', $username);
     
     if ($stmt->execute()) {
@@ -25,6 +25,7 @@ if(isset($_POST["username"]) && isset($_POST["password"]) && !empty($_POST["user
             $row = $result->fetch_assoc();
             if (password_verify($password, $row['password'])) {
                 $_SESSION['username'] = $username;
+                $_SESSION['admin'] = $row['admin']
                 header("Location: home.php");
                 exit();
             } else {
