@@ -80,7 +80,7 @@ body {
 
 #postboard, #postboardImg {
     margin-top: 2em;
-    width: 50%; /* Adjust this width if necessary */
+    width: 50%;
     min-height: 100vh;
     overflow-y: auto; 
     position: relative;
@@ -110,7 +110,6 @@ body {
     display: block; 
 }
 
-/* Add hover effect on posts */
 #postboard .post:hover, #postboardImg .post:hover {
     transform: scale(1.03); 
     background-color: #aee1e1; 
