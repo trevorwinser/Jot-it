@@ -38,8 +38,7 @@ if (isset($_POST["username"], $_POST["password"]) && !empty($_POST["username"]) 
     $stmt->bind_param("ss", $username, $hashed_password);
 
     if ($stmt->execute()) {
-        $_SESSION['username'] = $username;
-        header("Location: home.php");
+        header("Location: login.php?Account created. Try logging in");
         exit();
     } else {
         header("Location: register.php?message=Error: " . $stmt->error);

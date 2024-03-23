@@ -37,7 +37,7 @@
         </tr>
         <tr> 
             <td>
-                <a href="signin.php">Have an Account? Sign In</a>
+                <a href="login.php">Have an Account? Log In</a>
             </td>
         </tr>
         </form>

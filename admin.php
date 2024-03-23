@@ -4,29 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Page</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-        th, td {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
+    <link rel="stylesheet" href="css/admin.css">
 </head>
 <body>
+    <?php
+        include 'navbar.php';
+    ?>
     <form method='GET'>
-        <input type='text' name='search' placeholder='Search by username or post title' value=''>
+        <select name="search_by">
+            <option value="username">Username</option>
+            <option value="title">Title</option>
+        </select>
+        <input type='text' name='search' placeholder='Enter your search term'>
         <button type='submit'>Search</button>
     </form>
     <?php
-    include 'verify-admin.php';
-
+    
     $servername = "localhost";
     $username = "root";
     $password = "";
@@ -42,12 +35,18 @@
 
     // Handle search query
     $search_query = "";
+    $search_by = "username"; // Default search by username
     if (isset($_GET['search'])) {
         $search_query = $_GET['search'];
+        if (isset($_GET['search_by']) && ($_GET['search_by'] == 'title')) {
+            $search_by = "title";
+        }
         // Query to fetch rows based on search query
-        $sql = "SELECT * FROM user WHERE username LIKE '%$search_query%' 
-                UNION 
-                SELECT user.* FROM user INNER JOIN post ON user.id = post.user_id WHERE post.title LIKE '%$search_query%'";
+        if ($search_by == "username") {
+            $sql = "SELECT * FROM user WHERE username LIKE '%$search_query%'";
+        } else {
+            $sql = "SELECT user.* FROM user INNER JOIN post ON user.id = post.user_id WHERE post.title LIKE '%$search_query%'";
+        }
         $result = $conn->query($sql);
     } else {
         // Default query to fetch all rows
@@ -62,6 +61,7 @@
         while ($fieldinfo = $result->fetch_field()) {
             echo "<th>".$fieldinfo->name."</th>";
         }
+        echo "<th>Edit</th>"; // Additional column for edit link
         echo "</tr>";
 
         // Output data of each row
@@ -70,6 +70,7 @@
             foreach ($row as $value) {
                 echo "<td>".$value."</td>";
             }
+            echo "<td><a href='edit-user.php?user_id=".$row['id']."'>Edit</a></td>"; // Edit link
             echo "</tr>";
         }
         echo "</table>";
