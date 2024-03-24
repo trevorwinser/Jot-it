@@ -32,7 +32,7 @@
 
             <div>
                 <label for="post">Text</label><br>
-                <textarea rows="5" class="form-control" name="post" id="post" maxlength="1000" required></textarea>
+                <textarea rows="5" class="form-control" name="post" id="post" maxlength="3000" required></textarea>
             </div>
             <button type="submit">Submit</button>
             <button type="reset">Reset</button>

@@ -10,6 +10,15 @@
     <?php
         include 'navbar.php';
     ?>
+    <?php
+    if (isset($_GET['delete_status'])) {
+        if ($_GET['delete_status'] === "success") {
+            echo "<script>showMessage('User deleted successfully.');</script>";
+        } elseif ($_GET['delete_status'] === "error") {
+            echo "<script>showMessage('Error deleting user.');</script>";
+        }
+    }
+    ?>
     <form method='GET'>
         <select name="search_by">
             <option value="username">Username</option>
@@ -62,6 +71,7 @@
             echo "<th>".$fieldinfo->name."</th>";
         }
         echo "<th>Edit</th>"; // Additional column for edit link
+        echo "<th>Delete</th>"; // Additional column for delete link
         echo "</tr>";
 
         // Output data of each row
@@ -79,6 +89,7 @@
                 }
             }
             echo "<td><a href='edit-user.php?user_id=".$row['id']."'>Edit</a></td>"; // Edit link
+            echo "<td><a href='delete-user.php?user_id=".$row['id']."' onclick='return confirm(\"Are you sure you want to delete this user?\")'>Delete</a></td>"; // Delete link with confirmation
             echo "</tr>";
         }
         echo "</table>";

@@ -20,6 +20,12 @@
         <form action="checkregister.php" method="POST">
         <tr>
             <td>
+                <label for="username">Enter an Email:&nbsp;&nbsp;</label>
+                <input type="text" id="email" name="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" title="The email should adhere to the standard format, including characters like letters, numbers, dots, and underscores, followed by the '@' symbol and a domain name." required>
+            </td>
+        </tr>
+        <tr>
+            <td>
                 <label for="username">Enter a Username:&nbsp;&nbsp;</label>
                 <input type="text" id="username" name="username" pattern="[a-zA-Z0-9]{5,40}" title="Username should be 5-40 characters long and include only letters and numbers." required>
             </td>
@@ -27,7 +33,7 @@
         <tr>
             <td>
                 <label for="password">Enter a Password:&nbsp;&nbsp;&nbsp;</label>
-                <input type="password" id="password" name="password" minlength="8" required><br>
+                <input type="password" id="password" name="password" pattern="{8,60}" minlength="8" required><br>
             </td>
         </tr>
         <tr>
