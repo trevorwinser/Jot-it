@@ -7,9 +7,8 @@
     <link rel="stylesheet" href="css/admin.css">
 </head>
 <body>
-    <?php
-        include 'navbar.php';
-    ?>
+    <?php include 'navbar.php'; ?>
+
     <?php
     if (isset($_GET['delete_status'])) {
         if ($_GET['delete_status'] === "success") {
@@ -19,62 +18,69 @@
         }
     }
     ?>
+
     <form method='GET'>
         <select name="search_by">
             <option value="username">Username</option>
-            <option value="title">Title</option>
+            <option value="email">Email</option>
+            <option value="title">Post Title</option>
         </select>
         <input type='text' name='search' placeholder='Enter your search term'>
         <button type='submit'>Search</button>
     </form>
+
     <?php
-    
     $servername = "localhost";
     $username = "root";
     $password = "";
     $dbname = "jot-it";
 
-    // Create connection
     $conn = new mysqli($servername, $username, $password, $dbname);
 
-    // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    // Handle search query
-    $search_query = "";
-    $search_by = "username"; // Default search by username
     if (isset($_GET['search'])) {
-        $search_query = $_GET['search'];
-        if (isset($_GET['search_by']) && ($_GET['search_by'] == 'title')) {
-            $search_by = "title";
+        $search_query = '%'.$_GET['search'].'%';
+        if (isset($_GET['search_by'])) {
+            if ($_GET['search_by'] == 'title') {
+                $sql = "SELECT DISTINCT user.* FROM user LEFT JOIN post ON user.id = post.user_id WHERE post.title LIKE ?";
+            } else if ($_GET['search_by'] == 'email') {
+                $sql = "SELECT * FROM user WHERE email LIKE ?";
+            } else if ($_GET['search_by'] == 'username'){
+                $sql = "SELECT * FROM user WHERE username LIKE ?";
+            }
         }
-        // Query to fetch rows based on search query
-        if ($search_by == "username") {
-            $sql = "SELECT * FROM user WHERE username LIKE '%$search_query%'";
-        } else {
-            $sql = "SELECT user.*, post.image AS profile_picture FROM user LEFT JOIN post ON user.id = post.user_id WHERE post.title LIKE '%$search_query%'";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $search_query);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if (!$result) {
+            die("Error executing query: " . $stmt->error);
         }
-        $result = $conn->query($sql);
     } else {
-        // Default query to fetch all rows
         $sql = "SELECT * FROM user";
-        $result = $conn->query($sql);
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if (!$result) {
+            die("Error executing query: " . $stmt->error);
+        }
     }
 
-    // Display search results in a table
     if ($result->num_rows > 0) {
-        // Output table with column names at the top
         echo "<table><tr>";
         while ($fieldinfo = $result->fetch_field()) {
             echo "<th>".$fieldinfo->name."</th>";
         }
-        echo "<th>Edit</th>"; // Additional column for edit link
-        echo "<th>Delete</th>"; // Additional column for delete link
+        echo "<th>Edit</th>";
+        echo "<th>Delete</th>";
         echo "</tr>";
 
-        // Output data of each row
         while($row = $result->fetch_assoc()) {
             echo "<tr>";
             foreach ($row as $key => $value) {
@@ -88,14 +94,15 @@
                     echo "<td>".$value."</td>";
                 }
             }
-            echo "<td><a href='edit-user.php?user_id=".$row['id']."'>Edit</a></td>"; // Edit link
-            echo "<td><a href='delete-user.php?user_id=".$row['id']."' onclick='return confirm(\"Are you sure you want to delete this user?\")'>Delete</a></td>"; // Delete link with confirmation
+            echo "<td><a href='edit-user.php?user_id=".$row['id']."'>Edit</a></td>";
+            echo "<td><a href='delete-user.php?user_id=".$row['id']."' onclick='return confirm(\"Are you sure you want to delete this user?\")'>Delete</a></td>";
             echo "</tr>";
         }
         echo "</table>";
     } else {
         echo "0 results";
     }
+
     $conn->close();
     ?>
 </body>
