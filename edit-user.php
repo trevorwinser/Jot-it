@@ -4,62 +4,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit User</title>
+    <link rel="stylesheet" href="css/profile.css">
 </head>
 <body>
-    <?php
-    include 'navbar.php';
+<?php
+include 'navbar.php';
+include 'verify-admin.php'; // Verify admin privileges
 
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "jot-it";
+$message = $_GET['message'] ?? ''; // Initialize message and retrieve from URL if available
 
-    // Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
+// Fetch user details
+$user_id = $_GET['user_id'] ?? ''; // Assuming user_id is passed via GET
+$username = ''; // Initialize username
+$enabled = ''; // Initialize enabled status
 
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+$servername = "localhost";
+$username_db = "root";
+$password_db = "";
+$dbname = "jot-it";
 
-    // Check if user_id is provided in the URL
-    if (isset($_GET['user_id'])) {
-        $user_id = $_GET['user_id'];
+$conn = new mysqli($servername, $username_db, $password_db, $dbname);
 
-        // Query to fetch user based on user_id
-        $sql = "SELECT * FROM user WHERE id = $user_id";
-        $result = $conn->query($sql);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 
-        if ($result->num_rows > 0) {
-            // User found, display form to edit user details
-            $user = $result->fetch_assoc();
-            ?>
+// Check if the user exists
+$stmt = $conn->prepare("SELECT id, username, enabled FROM User WHERE id = ?");
+$stmt->bind_param('i', $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
 
-            <h2>Edit User</h2>
-            <form method="POST" action="update-username.php" class="user-form">
-                <input type="hidden" name="user_id" value="<?php echo $user['id']; ?>">
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $username = $row['username'];
+    $enabled = $row['enabled'];
+} else {
+    $message = 'User not found';
+}
 
-                <div class="form-group">
-                    <label for="username">New Username:</label>
-                    <input type="text" id="username" name="username" value="<?php echo $user['username']; ?>" required>
-                </div>
+$stmt->close();
+$conn->close();
+?>
+<div>
+    <form action="edit-user-submit.php" method="post">
+        <h2>Editing User: <?php echo $user_id .' '. $username; ?></h2>
+        <p id="message"><?php echo $message; ?></p>
+        <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
+        <input type="hidden" name="username" value="<?php echo $username; ?>">
+        <label for="new_username">New Username:</label>
+        <input type="text" id="new_username" name="new_username" value="<?php echo $username; ?>"><br><br>
+        
+        <input type="checkbox" id="enabled" name="enabled" <?php echo $enabled == 1 ? 'checked' : ''; ?>>
+        <label for="enabled">Enabled</label><br><br>
+        
+        <input type="submit" value="Save">
+    </form>
+</div>
 
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Update Username</button>
-                </div>
-            </form>
 
-
-
-            <?php
-        } else {
-            echo "User not found.";
-        }
-    } else {
-        echo "User ID not provided.";
-    }
-
-    $conn->close();
-    ?>
 </body>
 </html>

@@ -34,3 +34,6 @@ label {
     color: red;
     font-weight: bold;
 }
+input[type=checkbox] {
+    width: auto; /* Set width to 'auto' to prevent stretching */
+}
