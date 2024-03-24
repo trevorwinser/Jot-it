@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         exit;
     }
 
-    if (strlen($title) > 100 || strlen($post) > 1000) {
+    if (strlen($title) > 100 || strlen($post) > 3000) {
         die("Title or post body exceeds allowed length.");
     }
 

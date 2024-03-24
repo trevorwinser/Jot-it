@@ -20,8 +20,8 @@
         <form action="checkregister.php" method="POST">
         <tr>
             <td>
-                <label for="username">Enter an Email:&nbsp;&nbsp;</label>
-                <input type="text" id="email" name="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" title="The email should adhere to the standard format, including characters like letters, numbers, dots, and underscores, followed by the '@' symbol and a domain name." required>
+                <label for="email">Enter an Email:&nbsp;&nbsp;</label>
+                <input type="email" id="email" name="email" title="The email should adhere to the standard format, including characters like letters, numbers, dots, and underscores, followed by the '@' symbol and a domain name." required>
             </td>
         </tr>
         <tr>

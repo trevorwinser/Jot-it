@@ -11,12 +11,13 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-if (isset($_POST["username"], $_POST["password"]) && !empty($_POST["username"]) && !empty($_POST["password"])) {
+if (isset($_POST["username"], $_POST["password"], $_POST["email"]) && !empty($_POST["username"]) && !empty($_POST["password"]) && !empty($_POST["email"])) {
     $username = trim($_POST["username"]);
     $password = $_POST["password"];
+    $email = $_POST["email"];
 
     // Validate username and password
-    if (!preg_match('/^[a-zA-Z0-9]{5,40}$/', $username) || strlen($password) < 8) {
+    if (!preg_match('/^[a-zA-Z0-9]{5,40}$/', $username) || strlen($password) < 8 || strlen($password) > 60 || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
         header("Location: register.php?message=Invalid input");
         exit();
     }

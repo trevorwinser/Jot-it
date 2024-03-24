@@ -27,13 +27,13 @@
         <form action="checklogin.php" method="POST">
         <tr>
             <td>
-                <label for="fname">Username:&nbsp</label>
+                <label for="username">Username:&nbsp</label>
                 <input type="text" id="username" name="username">
             </td>
         </tr>
         <tr>
             <td>
-                <label for="lname">Password:&nbsp&nbsp</label>
+                <label for="password">Password:&nbsp&nbsp</label>
                 <input type="password" id="password" name="password"><br>
             </td>
         </tr>
