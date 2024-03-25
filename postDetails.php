@@ -42,8 +42,6 @@ if (isset($_GET['id'])) {
         }
         echo '</div>';
 
-
-        // Comments
         echo '<div class="comments-container">';
         $comments_query = $conn->prepare("SELECT c.*, u.username FROM comment c JOIN user u ON c.commenter_id = u.id WHERE c.post_id = ?");
         if (!$comments_query) {
@@ -67,17 +65,19 @@ if (isset($_GET['id'])) {
             echo '<p>No comments yet.</p>';
         }
 
-        // Comment form
-        echo '<div class="submitCommentContainer">';
-        echo '<form action="' . $_SERVER['REQUEST_URI'] . '" method="post">';
-        echo '<div class="comment-container">';
-        echo '<label for="comment-box">Type your comment</label><br>';
-        echo '<textarea name="comment-box" id="comment-box"></textarea>';
-        echo '</div>';
-        echo '<button type="submit" class="submit-btn">Post Comment</button>';
-        echo '</form>';
-        echo '</div>';
-        echo '</div>';
+        //Displays comment submission form if session id is set
+        if (isset($_SESSION['id'])) {
+            echo '<div class="submitCommentContainer">';
+            echo '<form action="' . $_SERVER['REQUEST_URI'] . '" method="post">';
+            echo '<div class="comment-container">';
+            echo '<label for="comment-box">Type your comment</label><br>';
+            echo '<textarea name="comment-box" id="comment-box"></textarea>';
+            echo '</div>';
+            echo '<button type="submit" class="submit-btn">Post Comment</button>';
+            echo '</form>';
+            echo '</div>';
+            echo '</div>';
+        }
 
         // Handle comment submission
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['comment-box'])) {

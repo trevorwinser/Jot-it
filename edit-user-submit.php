@@ -1,5 +1,6 @@
 <?php
-
+session_start();
+include 'verify-admin.php';
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $user_id = $_POST['user_id'];
     $username = $_POST['username'];

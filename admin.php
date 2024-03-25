@@ -7,7 +7,10 @@
     <link rel="stylesheet" href="css/admin.css">
 </head>
 <body>
-    <?php include 'navbar.php'; ?>
+    <?php 
+    include 'navbar.php'; 
+    include 'verify-admin.php';
+    ?>
 
     <?php
     if (isset($_GET['delete_status'])) {
@@ -18,7 +21,7 @@
         }
     }
     ?>
-
+    <h2>Users</h2>
     <form method='GET'>
         <select name="search_by">
             <option value="username">Username</option>
@@ -102,6 +105,41 @@
     } else {
         echo "0 results";
     }
+
+    $sql_comments = "SELECT * FROM comment";
+    $stmt_comments = $conn->prepare($sql_comments);
+    $stmt_comments->execute();
+    $result_comments = $stmt_comments->get_result();
+
+    if (!$result_comments) {
+        die("Error executing query: " . $stmt_comments->error);
+    }
+
+    echo "<h2>Comments</h2>";
+    if ($result_comments->num_rows > 0) {
+        echo "<table><tr>";
+        while ($fieldinfo_comments = $result_comments->fetch_field()) {
+            echo "<th>".$fieldinfo_comments->name."</th>";
+        }
+        echo "<th>Edit</th>";
+        echo "<th>Delete</th>";
+        echo "</tr>";
+
+        while($row_comments = $result_comments->fetch_assoc()) {
+            echo "<tr>";
+            foreach ($row_comments as $key_comments => $value_comments) {
+                echo "<td>".$value_comments."</td>";
+            }
+            echo "<td><a href='edit-comment.php?comment_id=".$row_comments['id']."'>Edit</a></td>";
+            echo "<td><a href='delete-comment.php?comment_id=".$row_comments['id']."' onclick='return confirm(\"Are you sure you want to delete this comment?\")'>Delete</a></td>";
+            echo "</tr>";
+        }
+        echo "</table>";
+    } else {
+        echo "No comments found";
+    }
+
+    echo "<h2>Posts</h2>";
 
     $conn->close();
     ?>
