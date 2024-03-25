@@ -11,12 +11,8 @@
 include 'navbar.php';
 include 'verify-admin.php'; // Verify admin privileges
 
-$message = $_GET['message'] ?? ''; // Initialize message and retrieve from URL if available
-
-// Fetch user details
-$user_id = $_GET['user_id'] ?? ''; // Assuming user_id is passed via GET
-$username = ''; // Initialize username
-$enabled = ''; // Initialize enabled status
+$message = $_GET['message'] ?? '';  // Clever way to avoid dealing with if(isset())
+$user_id = $_GET['user_id'] ?? '';
 
 $servername = "localhost";
 $username_db = "root";
@@ -41,6 +37,8 @@ if ($result->num_rows > 0) {
     $enabled = $row['enabled'];
 } else {
     $message = 'User not found';
+    $username = '';
+    $enabled = 0;
 }
 
 $stmt->close();

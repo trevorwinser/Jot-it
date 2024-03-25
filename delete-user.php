@@ -18,7 +18,7 @@ if (isset($_GET['user_id'])) {
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $user_id);
 
-    if ($stmt->execute()) {
+    if ($stmt->execute()) { 
         header("Location: admin.php?delete_status=success");
         exit();
     } else {

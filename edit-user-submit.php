@@ -1,5 +1,4 @@
 <?php
-// Processing form data and updating user information
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $user_id = $_POST['user_id'];

@@ -16,7 +16,7 @@ if(isset($_POST["username"]) && isset($_POST["password"]) && !empty($_POST["user
     $username = $_POST["username"];
     $password = $_POST["password"];
     
-    $stmt = $conn->prepare("SELECT password, admin, id FROM User WHERE username = ?");
+    $stmt = $conn->prepare("SELECT password, admin, id, enabled FROM User WHERE username = ?");
     $stmt->bind_param('s', $username);
     
     if ($stmt->execute()) {
@@ -24,11 +24,15 @@ if(isset($_POST["username"]) && isset($_POST["password"]) && !empty($_POST["user
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
             if (password_verify($password, $row['password'])) {
-                $_SESSION['username'] = $username;
-                $_SESSION['admin'] = $row['admin'];
-                $_SESSION['id'] = $row['id'];
-                header("Location: home.php");
-                exit();
+                if ($row['enabled'] == 1) {
+                    $_SESSION['username'] = $username;
+                    $_SESSION['admin'] = $row['admin'];
+                    $_SESSION['id'] = $row['id'];
+                    header("Location: home.php");
+                    exit();
+                } else {
+                    header("Location: login.php?message=Account has been disabled");
+                }
             } else {
                 header("Location: login.php?message=Password is incorrect");
                 exit();

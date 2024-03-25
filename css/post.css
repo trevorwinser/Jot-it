@@ -1,23 +1,18 @@
-body{
-    background-color: #f5e72c;
-}
 .post {
     max-width: 100%;
     word-wrap: break-word;
-    line-height: 32px;
     padding: 20px;
     padding-bottom: 15px;   
-    text-align: center;
 }
 .comment {
+    background-color: lightgray;
     line-height: 32px;
     padding: 20px;
-    padding-bottom: 10px;
     margin: 20px;
+    margin-bottom: 100px;
 }
 button {
     background-color: #3fd43f;
-    margin: 20px;
     margin-bottom: 0;
     border: none;
     padding: 10px;
@@ -36,4 +31,22 @@ textarea{
     width: 50%;
     height: 300px;
     resize: none;
+}
+
+h3 {
+    padding: 20px;
+}
+
+.error h1{
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.comments-container p{
+    padding: 20px;
+}
+
+.submitCommentContainer {
+    padding: 20px;
 }

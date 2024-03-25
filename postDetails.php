@@ -1,7 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+</head>
+<body>
 <?php
-
 include 'navbar.php';
-
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -56,9 +62,9 @@ if (isset($_GET['id'])) {
         if ($comments_result->num_rows > 0) {
             echo '<h3>Comments</h3>';
             while ($comment = $comments_result->fetch_assoc()) {
-                echo '<div class="comment">';
-                echo '<p><strong>' . htmlspecialchars($comment['username']) . '</strong>: ' . htmlspecialchars($comment['body']) . '</p>';
-                echo '</div>';
+                echo '<span class="comment">';
+                echo '<b>' . htmlspecialchars($comment['username']) . '</b>: ' . htmlspecialchars($comment['body']);
+                echo '</span><br><br><br>';
             }
         } else {
             echo '<p>No comments yet.</p>';
@@ -103,13 +109,15 @@ if (isset($_GET['id'])) {
         }
         ob_end_flush();
         
-        
+        echo '<title>'. $post['title'].'</title>';
     } else {
-        echo '<div class="error">Post not found</div>';
+        echo '<div class="error"><h1>Post not found</h1></div>';
     }
 } else {
-    echo '<div class="error">Post ID not provided</div>';
+    echo '<div class="error"><h1>Post ID not provided</h1></div>';
 }
-
 $conn->close();
 ?>
+
+</body>
+</html>
