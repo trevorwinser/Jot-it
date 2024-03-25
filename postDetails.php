@@ -25,23 +25,20 @@ echo '<link rel="stylesheet" href="css/post.css">';
 ob_start();
 if (isset($_GET['id'])) {
     $post_id = $_GET['id'];
-    $stmt = $conn->prepare("SELECT * FROM post WHERE id = ?");
+    $stmt = $conn->prepare("SELECT p.*, u.username AS poster_username FROM post p JOIN user u ON p.user_id = u.id WHERE p.id = ?");
     $stmt->bind_param('i', $post_id);
     $stmt->execute();
     $result = $stmt->get_result();
-    
+
     if ($result->num_rows > 0) {
         $post = $result->fetch_assoc();
-        
-        if (!empty($post['image'])) {
-            $image_data = base64_encode($post['image']);
-            $post['image'] = $image_data;
-        }
+
         echo '<div class="post">';
         echo '<h2>' . htmlspecialchars($post['title']) . '</h2>';  
         echo '<p>' . nl2br(htmlspecialchars($post['body'])) . '</p>';
+        echo '<p>Posted by: ' . htmlspecialchars($post['poster_username']) . '</p>';
         if (!empty($post['image'])) {
-            echo '<img src="data:image/jpeg;base64,' . $post['image'] . '" alt="Post Image">';
+            echo '<img src="data:image/jpeg;base64,' . base64_encode($post['image']) . '" alt="Post Image">';
         }
         echo '</div>';
 
