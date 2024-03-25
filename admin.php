@@ -12,9 +12,9 @@
     <?php
     if (isset($_GET['delete_status'])) {
         if ($_GET['delete_status'] === "success") {
-            echo "<script>showMessage('User deleted successfully.');</script>";
+            echo "<script>alert('User deleted successfully.');</script>";
         } elseif ($_GET['delete_status'] === "error") {
-            echo "<script>showMessage('Error deleting user.');</script>";
+            echo "<script>alert('Error deleting user.');</script>";
         }
     }
     ?>
