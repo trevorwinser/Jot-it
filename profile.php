@@ -35,7 +35,6 @@
         $new_password = $_POST['new_password'];
         $image = $_FILES['image'];
 
-        // Check if current password is correct
         $stmt = $conn->prepare("SELECT password FROM User WHERE username = ?");
         $stmt->bind_param('s', $username);
         $stmt->execute();
@@ -49,20 +48,31 @@
             if (!password_verify($current_password, $row['password'])) {
                 $message = 'Incorrect current password';
             } else {
-                // Proceed with updates if current password is correct
-                // Update the image if a new one has been uploaded
                 if ($image['error'] == UPLOAD_ERR_OK) {
-                    $imageData = file_get_contents($image['tmp_name']); // Get binary data
-                    $stmt = $conn->prepare("UPDATE User SET image = ? WHERE username = ?");
-                    $null = NULL; // Placeholder for blob data
-                    $stmt->bind_param("bs", $null, $username);
-                    $stmt->send_long_data(0, $imageData); // Send binary data
-                    $stmt->execute();
-                    $message = $stmt->error ? 'Failed to update image' : 'Profile updated successfully';
-                    $stmt->close();
+                    $check = getimagesize($image['tmp_name']);
+                    if($check !== false) {
+                        $fileType = $check['mime'];
+                        if(in_array($fileType, ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'])) {
+                            $imageData = file_get_contents($image['tmp_name']); 
+                
+                            $stmt = $conn->prepare("UPDATE User SET image = ? WHERE username = ?");
+                            $null = NULL; 
+                            $stmt->bind_param("bs", $null, $username);
+                            $stmt->send_long_data(0, $imageData); 
+                            if ($stmt->execute()) {
+                                $message = 'Profile updated successfully';
+                            } else {
+                                $message = 'Failed to update image';
+                            }
+                            $stmt->close();
+                        } else {
+                            $message = 'Invalid image type. Only JPEG, PNG, and GIF are allowed.';
+                        }
+                    } else {
+                        $message = 'File is not an image.';
+                    }
                 }
-
-                // Update password if provided
+                
                 if (!empty($new_password)) {
                     $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
                     $stmt = $conn->prepare("UPDATE User SET password = ? WHERE username = ?");
@@ -72,13 +82,12 @@
                     $stmt->close();
                 }
 
-                // Update username if provided
                 if (!empty($new_username)) {
                     $stmt = $conn->prepare("UPDATE User SET username = ? WHERE username = ?");
                     $stmt->bind_param('ss', $new_username, $username);
                     $stmt->execute();
                     $message = $stmt->error ? 'Failed to update username' : 'Profile updated successfully';
-                    $_SESSION['username'] = $new_username; // Update session username
+                    $_SESSION['username'] = $new_username; 
                     $stmt->close();
                 }
             }

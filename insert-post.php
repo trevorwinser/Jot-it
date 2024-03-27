@@ -19,9 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $datetime = date('Y-m-d H:i:s');
     if(isset($_SESSION['id'])) {
         $user_id = $_SESSION['id'];
-    }else {
+    } else {
         echo "User not authenticated";
-        echo  $_SESSION['id'];
         exit;
     }
     $category = trim($_POST['category']);
@@ -31,6 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
 
     $image = NULL;
+    $allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'];
 
     if (isset($_FILES['image']) && $_FILES['image']['error'] == UPLOAD_ERR_OK) {
         $imageInfo = getimagesize($_FILES['image']['tmp_name']);
@@ -38,24 +38,23 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             die("Uploaded file is not a valid image.");
         }
 
+        if (!in_array($imageInfo['mime'], $allowedTypes)) {
+            die("Uploaded image is not in an allowed format.");
+        }
+
         $tmpName = $_FILES['image']['tmp_name'];
         $fp = fopen($tmpName, 'rb');
         $image = fread($fp, filesize($tmpName));
         fclose($fp);
-    } else {
-        $image = null; 
-    }
+    } 
 
-    $stmt = $conn->prepare("INSERT INTO post (title, body, date, image, user_id,category) VALUES (?, ?, ?, ?, ?,?)");
+    $stmt = $conn->prepare("INSERT INTO post (title, body, date, image, user_id, category) VALUES (?, ?, ?, ?, ?, ?)");
     $null = NULL;
     $stmt->bind_param("sssbis", $title, $post, $datetime, $null, $user_id, $category);
     $stmt->send_long_data(3, $image); 
 
     if ($stmt->execute()) {
         echo "New post created successfully";
-        echo "<pre>";
-print_r($_FILES['eventImage']);
-echo "</pre>";
     } else {
         echo "Error: " . $stmt->error;
     }
