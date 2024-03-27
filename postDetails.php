@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     
 </head>
 <body>
@@ -13,16 +14,14 @@ $username = "root";
 $password = "";
 $dbname = "jot-it";
 
-// Create connection
+
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
 echo '<link rel="stylesheet" href="css/post.css">';
-ob_start();
 if (isset($_GET['id'])) {
     $post_id = $_GET['id'];
     $stmt = $conn->prepare("SELECT p.*, u.username AS poster_username FROM post p JOIN user u ON p.user_id = u.id WHERE p.id = ?");
@@ -43,78 +42,78 @@ if (isset($_GET['id'])) {
         echo '</div>';
 
         echo '<div class="comments-container">';
-        $comments_query = $conn->prepare("SELECT c.*, u.username FROM comment c JOIN user u ON c.commenter_id = u.id WHERE c.post_id = ?");
-        if (!$comments_query) {
-            die("Error preparing comments query: " . $conn->error);
-        }
-        $comments_query->bind_param('i', $post_id);
-        $comments_query->execute();
-        $comments_result = $comments_query->get_result();
+        echo '<script>$(document).ready(function() { loadComments(); });</script>';
+        echo '</div>';
 
-        if (!$comments_result) {
-            die("Error executing comments query: " . $conn->error);
-        }
-        if ($comments_result->num_rows > 0) {
-            echo '<h3>Comments</h3>';
-            while ($comment = $comments_result->fetch_assoc()) {
-                echo '<span class="comment">';
-                echo '<b>' . htmlspecialchars($comment['username']) . '</b>: ' . htmlspecialchars($comment['body']);
-                echo '</span><br><br><br>';
-            }
-        } else {
-            echo '<p>No comments yet.</p>';
-        }
-
-        //Displays comment submission form if session id is set
-        if (isset($_SESSION['id'])) {
+        if (isset($_GET['id']) && isset($_SESSION['id'])) {
             echo '<div class="submitCommentContainer">';
-            echo '<form action="' . $_SERVER['REQUEST_URI'] . '" method="post">';
+            echo '<form id="commentForm" method="post" action="">';
             echo '<div class="comment-container">';
             echo '<label for="comment-box">Type your comment</label><br>';
             echo '<textarea name="comment-box" id="comment-box"></textarea>';
             echo '</div>';
-            echo '<button type="submit" class="submit-btn">Post Comment</button>';
+            echo '<button type="submit" class="submit-btn" id="submit-btn">Post Comment</button>';
             echo '</form>';
             echo '</div>';
             echo '</div>';
         }
-
-        // Handle comment submission
-        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['comment-box'])) {
-            $comment_text = $_POST['comment-box'];
-            if(isset($_SESSION['id'])) {
-                $commenter_id = $_SESSION['id'];
-            }else {
-                echo "User not authenticated";
-                echo  $_SESSION['id'];
-                exit;
-            }
-            $datetime = date("Y-m-d H:i:s");
-
-            // Insert comment into the database
-            $insert_comment_stmt = $conn->prepare("INSERT INTO comment (post_id, body, commenter_id, date) VALUES (?, ?, ?, ?)");
-            $insert_comment_stmt->bind_param('isss', $post_id, $comment_text, $commenter_id,$datetime);
-
-            if ($insert_comment_stmt->execute()) {
-                echo '<p class="success">Comment posted successfully.</p>';
-            } else {
-                echo '<p class="error">Error posting comment.</p>';
-                
-            }
-            header("Location: ".$_SERVER['REQUEST_URI']);
-            exit;
-        }
-        ob_end_flush();
         
-        echo '<title>'. $post['title'].'</title>';
-    } else {
-        echo '<div class="error"><h1>Post not found</h1></div>';
     }
-} else {
-    echo '<div class="error"><h1>Post ID not provided</h1></div>';
 }
 $conn->close();
 ?>
+
+<script>
+$(document).ready(function() {
+    $('#commentForm').submit(function(e) {
+        e.preventDefault(); 
+        
+        var postId = <?php echo isset($_GET['id']) ? $_GET['id'] : 'null'; ?>;
+        var commentText = $('#comment-box').val();
+        
+        console.log('postId:', postId); 
+        console.log('commentText:', commentText); 
+        if (postId && commentText) {
+            $.ajax({
+                type: 'POST',
+                url: 'submit-comments.php',
+                data: {
+                    post_id: postId,
+                    commentText: commentText
+                },
+                success: function(response) {
+                    if (response.success) {
+                        $('#comment-box').val(''); 
+                        loadComments(); 
+                    } else {
+                        alert('Error posting comment: ' + response.error);
+                    }
+                },
+                dataType: 'json'
+            });
+        }
+    });
+    function loadComments() {
+        var postId = <?php echo isset($_GET['id']) ? $_GET['id'] : 'null'; ?>;
+        if (postId) {
+            $.getJSON('fetch-comments.php?id=' + postId, function(data) {
+                var commentsContainer = $('.comments-container');
+                commentsContainer.empty();
+                if (data.length > 0) {
+                    commentsContainer.append('<h3>Comments</h3>');
+                    $.each(data, function(index, comment) {
+                        commentsContainer.append('<span class="comment"><b>' + comment.username + '</b>: ' + comment.body + '</span><br><br><br>');
+                    });
+                } else {
+                    commentsContainer.append('<p>No comments yet.</p>');
+                }
+            });
+        }
+    }
+
+    loadComments();
+});
+</script>
 
 </body>
 </html>
