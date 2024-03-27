@@ -11,6 +11,34 @@
     include 'navbar.php';
     ?>
     <div class="sidebar">
+
+    <div class="bookmarks-container">
+    <div class="bookmark" id="bookmark1">
+        <a href="#">
+            <img src="images/bookmark1.png" alt="Bookmark 1">
+            <p>Art</p>
+        </a>
+    </div>
+    <div class="bookmark" id="bookmark2">
+        <a href="#">
+            <img src="images/bookmark2.png" alt="Bookmark 2">
+            <p>Food</p> 
+        </a>
+    </div>
+    <div class="bookmark" id="bookmark3">
+        <a href="#">
+            <img src="images/bookmark3.png" alt="Bookmark 3">
+            <p>Sports</p>
+        </a>
+    </div>
+    <div class="bookmark" id="bookmark4">
+        <a href="#">
+            <img src="images/bookmark4.png" alt="Bookmark 4">
+            <p>Travel</p>
+        </a>
+    </div>
+</div>
+
         <div class="profile-section">
             <?php
             
