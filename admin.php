@@ -139,8 +139,6 @@
         echo "No comments found";
     }
 
-    echo "<h2>Posts</h2>";
-
     $conn->close();
     ?>
 </body>
