@@ -9,6 +9,9 @@
 <body>
     <?php include 'navbar.php'; ?>
     
+    
+    
+    <main>
     <div class="sidebar">
         <!-- Profile Section -->
         <div class="profile-section">
@@ -36,9 +39,9 @@
                             $profile_picture = $row['image'];
 
                             if ($profile_picture) {
-                                echo '<img src="data:image/jpeg;base64,' . base64_encode($profile_picture) . '" alt="Profile Picture">';
+                                echo '<img src="data:image/jpeg;base64,' . base64_encode($profile_picture) . '" alt="Profile Picture" id="profile-picture">';
                             } else {
-                                echo '<img src="images/profile-icon.png" alt="Profile Picture">';
+                                echo '<img src="images/profile-icon.png" alt="Profile Picture" id="profile-picture">';
                             }
                         }
                     }
@@ -51,34 +54,24 @@
         <!-- Bookmarks Container -->
         <div class="bookmarks-container">
             <div class="bookmark" id="bookmark1">
-                <a href="#">
-                    <img src="images/bookmark1.png" alt="Bookmark 1">
-                    <p>Art</p>
-                </a>
+                <img src="images/bookmark1.png" alt="Bookmark 1">
+                <p><a href="categories.php?category=1">Art</a></p>
             </div>
             <div class="bookmark" id="bookmark2">
-                <a href="#">
-                    <img src="images/bookmark2.png" alt="Bookmark 2">
-                    <p>Food</p> 
-                </a>
+                <img src="images/bookmark2.png" alt="Bookmark 2">
+                <p><a href="categories.php?category=2">Food</a></p>
             </div>
             <div class="bookmark" id="bookmark3">
-                <a href="#">
-                    <img src="images/bookmark3.png" alt="Bookmark 3">
-                    <p>Sports</p>
-                </a>
+                <img src="images/bookmark3.png" alt="Bookmark 3">
+                <p><a href="categories.php?category=3">Sports</a></p>
             </div>
             <div class="bookmark" id="bookmark4">
-                <a href="#">
-                    <img src="images/bookmark4.png" alt="Bookmark 4">
-                    <p>Travel</p>
-                </a>
+                <img src="images/bookmark4.png" alt="Bookmark 4">
+                <p><a href="categories.php?category=4">Travel</a></p>
             </div>
         </div>
         <!-- End of Bookmarks Container -->
     </div>
-
-    <main>
         <div id="postboardContainer">
             <div id="postboard"></div>
             <div id="postboardImg"></div>
@@ -88,7 +81,7 @@
 </body>
 
     <script>
-    // Function to fetch new posts and update the homepage
+    // Fetches posts and formats them to display
     function fetchNewPosts() {
     fetch('fetch-posts.php')
     .then(response => response.json())

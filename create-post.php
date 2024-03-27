@@ -11,9 +11,8 @@
 <body>
     <?php
         include 'navbar.php';
-    ?>
-    <?php
         include 'verify-login.php';
+
     ?>
     <div class="group-form">
         <form id="createPostForm" method="post" enctype="multipart/form-data">
@@ -37,11 +36,10 @@
             <div>
                 <select name="category">
                     <option value="0">Select category</option>
-                    <option value="1">Food</option>
-                    <option value="2">Travel</option>
-                    <option value="3">Art</option>
-                    <option value="4">Sports</option>
-                    <option value="5">Books</option>
+                    <option value="1">Art</option>
+                    <option value="2">Food</option>
+                    <option value="3">Sports</option>
+                    <option value="4">Travel</option>
                 </select>
             </div>
             <button type="submit">Submit</button>

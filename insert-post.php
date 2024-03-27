@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 session_start();
 
@@ -17,20 +19,21 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $title = trim($_POST['title']);
     $post = trim($_POST['post']);
     $datetime = date('Y-m-d H:i:s');
-    if(isset($_SESSION['id'])) {
+    $category = isset($_POST['category']) ? (int)$_POST['category'] : null; // Ensure $category is an integer
+
+    if (isset($_SESSION['id'])) {
         $user_id = $_SESSION['id'];
     } else {
         echo "User not authenticated";
         exit;
     }
-    $category = trim($_POST['category']);
 
     if (strlen($title) > 100 || strlen($post) > 3000) {
         die("Title or post body exceeds allowed length.");
     }
 
     $image = NULL;
-    $allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'];
+    $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
 
     if (isset($_FILES['image']) && $_FILES['image']['error'] == UPLOAD_ERR_OK) {
         $imageInfo = getimagesize($_FILES['image']['tmp_name']);
@@ -50,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     $stmt = $conn->prepare("INSERT INTO post (title, body, date, image, user_id, category) VALUES (?, ?, ?, ?, ?, ?)");
     $null = NULL;
-    $stmt->bind_param("sssbis", $title, $post, $datetime, $null, $user_id, $category);
+    $stmt->bind_param("sssbii", $title, $post, $datetime, $null, $user_id, $category);
     $stmt->send_long_data(3, $image); 
 
     if ($stmt->execute()) {
@@ -61,4 +64,4 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $stmt->close();
 }
 $conn->close();
-?>
+?> 

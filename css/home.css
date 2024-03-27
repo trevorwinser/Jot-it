@@ -9,7 +9,6 @@ ul {
     position: fixed;
     width: 250px; 
     height: 100%;
-    z-index: -1;
     top: 20;
     left: 0;
     background-color: #d5b1ef;
@@ -29,10 +28,13 @@ ul {
     border-radius: 50%; 
     
 }
-
+#profile-picture {
+    width:80%;
+    margin: auto;
+}
 
 main {
-    padding-top: 2em;
+
     padding-left: 250px;
 }
 
@@ -104,17 +106,13 @@ body {
 }
 
 .bookmark img {
-    width: 120%; 
-    height: 90%; 
-} 
+ width: 120%;
+}
 
 .bookmark p {
     position: absolute; 
-    top: 20%; 
-    left: 50%; 
-    transform: translate(-50%, -50%); 
-    z-index: 2; 
-    color: rgb(0, 0, 0); 
+    margin: auto;
+    top: 10%;
     text-align: center; 
     width: 100%; 
 }
