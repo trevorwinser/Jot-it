@@ -34,6 +34,16 @@
                 <label for="post">Text</label><br>
                 <textarea rows="5" class="form-control" name="post" id="post" maxlength="3000" required></textarea>
             </div>
+            <div>
+                <select name="category">
+                    <option value="0">Select category</option>
+                    <option value="1">Food</option>
+                    <option value="2">Travel</option>
+                    <option value="3">Art</option>
+                    <option value="4">Sports</option>
+                    <option value="5">Books</option>
+                </select>
+            </div>
             <button type="submit">Submit</button>
             <button type="reset">Reset</button>
             <br><br>

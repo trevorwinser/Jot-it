@@ -24,6 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         echo  $_SESSION['id'];
         exit;
     }
+    $category = trim($_POST['category']);
 
     if (strlen($title) > 100 || strlen($post) > 3000) {
         die("Title or post body exceeds allowed length.");
@@ -31,30 +32,30 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     $image = NULL;
 
-    // Check if a file was uploaded
     if (isset($_FILES['image']) && $_FILES['image']['error'] == UPLOAD_ERR_OK) {
         $imageInfo = getimagesize($_FILES['image']['tmp_name']);
         if ($imageInfo === FALSE) {
             die("Uploaded file is not a valid image.");
         }
-        // Open the file and read its contents
+
         $tmpName = $_FILES['image']['tmp_name'];
-        $fp = fopen($tmpName, 'rb'); // Read binary data
+        $fp = fopen($tmpName, 'rb');
         $image = fread($fp, filesize($tmpName));
         fclose($fp);
     } else {
-        $image = null; // No image uploaded
+        $image = null; 
     }
 
-    // Prepare statement with BLOB
-    $stmt = $conn->prepare("INSERT INTO post (title, body, date, image, user_id) VALUES (?, ?, ?, ?, ?)");
-    // bind_param doesn't work directly with BLOBs, use bind_param and send_long_data instead
+    $stmt = $conn->prepare("INSERT INTO post (title, body, date, image, user_id,category) VALUES (?, ?, ?, ?, ?,?)");
     $null = NULL;
-    $stmt->bind_param("sssbi", $title, $post, $datetime, $null, $user_id);
-    $stmt->send_long_data(3, $image); // Send binary data
+    $stmt->bind_param("sssbis", $title, $post, $datetime, $null, $user_id, $category);
+    $stmt->send_long_data(3, $image); 
 
     if ($stmt->execute()) {
         echo "New post created successfully";
+        echo "<pre>";
+print_r($_FILES['eventImage']);
+echo "</pre>";
     } else {
         echo "Error: " . $stmt->error;
     }
