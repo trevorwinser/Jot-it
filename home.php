@@ -90,7 +90,7 @@
     <script>
     // Function to fetch new posts and update the homepage
     function fetchNewPosts() {
-    fetch('fetch_posts.php')
+    fetch('fetch-posts.php')
     .then(response => response.json())
     .then(posts => {
         const postboard = document.getElementById('postboard');
