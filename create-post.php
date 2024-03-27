@@ -34,7 +34,7 @@
                 <textarea rows="5" class="form-control" name="post" id="post" maxlength="3000" required></textarea>
             </div>
             <div>
-                <select name="category">
+                <select name="category" required>
                     <option value="0">Select category</option>
                     <option value="1">Art</option>
                     <option value="2">Food</option>
@@ -42,6 +42,7 @@
                     <option value="4">Travel</option>
                 </select>
             </div>
+            <br>
             <button type="submit">Submit</button>
             <button type="reset">Reset</button>
             <br><br>

@@ -122,6 +122,6 @@ setInterval(fetchNewPosts, 10000);
 
 
 </script>
-</body>
+
 </html>
 

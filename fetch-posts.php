@@ -14,30 +14,18 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT title, body, image, id, category FROM post";
-
-$params = [];
-
-if (isset($_GET['category']) && is_numeric($_GET['category'])) {
-    $category = (int) $_GET['category']; // Ensure the category is an integer
-    $sql .= " WHERE category = ?"; // Use a placeholder for the category
-    $params[] = $category; // Add the category to the parameters array
-    console.log($category);
+if (isset($_GET['category'])) {
+    $category = (int) $_GET['category'];
+    $sql = "SELECT title, body, image, id, category FROM post WHERE category = ? ORDER BY date DESC LIMIT 5";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", ($category));
+} else {
+    $sql = "SELECT title, body, image, id, category FROM post ORDER BY date DESC LIMIT 5";
+    $stmt = $conn->prepare($sql);
 }
 
-$sql .= " ORDER BY date DESC LIMIT 5"; // Continue with the rest of the SQL query
 
-// Prepare the statement
-$stmt = $conn->prepare($sql);
-
-// Bind parameters if necessary
-if (!empty($params)) {
-    $stmt->bind_param("i", ...$params); // 'i' indicates the parameters are integers
-}
-
-// Execute the statement
 $stmt->execute();
-
 // Get the result
 $result = $stmt->get_result();
 $posts = [];
