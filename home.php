@@ -18,6 +18,7 @@
         <!-- Profile Section -->
         <div class="profile-section">
                     <?php 
+                    include 'checklogin.php';
                     if (isset($_SESSION['profile_picture'])&&!empty($_SESSION['profile_picture'])) {
                         echo '<img src="data:image/jpeg;base64,' . $_SESSION['profile_picture'] . '" alt="Profile Picture" id="profile-picture">';
                     } else {
