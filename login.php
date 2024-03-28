@@ -10,6 +10,7 @@
 <body>
     <?php
         include 'navbar.php';
+        mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
     ?>
     <table>
         <tr>

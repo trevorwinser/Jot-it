@@ -8,9 +8,11 @@ if(isset($_POST["username"]) && isset($_POST["password"]) && !empty($_POST["user
     $dbname = "db_61837175";
 
     $conn = new mysqli($servername, $username, $password, $dbname);
+    mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
+        
     }
     
     $username = $_POST["username"];

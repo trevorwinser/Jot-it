@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="css/nav.css">
 </head>
 <body>
-    <?php include 'navbar.php'; ?>
+    <?php include 'navbar.php'; 
+    mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);?>
 
     <table>
         <tr><th>Register</th></tr>
