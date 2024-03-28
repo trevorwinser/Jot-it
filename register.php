@@ -34,7 +34,7 @@
         <tr>
             <td>
                 <label for="password">Enter a Password:&nbsp;&nbsp;&nbsp;</label>
-                <input type="password" id="password" name="password" pattern="{8,60}" minlength="8" required><br>
+                <input type="password" id="password" name="password" pattern=".{8,60}" title="Password should be 8-60 characters long." required><br>
             </td>
         </tr>
         <tr>
