@@ -5,6 +5,11 @@ $username = "61837175";
 $password = "61837175";
 $dbname = "db_61837175";
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+
 $conn = new mysqli($servername, $username, $password, $dbname);
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 if ($conn->connect_error) {
