@@ -26,7 +26,7 @@ if (isset($_POST["username"], $_POST["password"], $_POST["email"]) && !empty($_P
         exit();
     }
 
-    $stmt = $conn->prepare("SELECT * FROM User WHERE username = ?");
+    $stmt = $conn->prepare("SELECT * FROM user WHERE username = ?");
     $stmt->bind_param("s", $username);
     $stmt->execute();
     $result = $stmt->get_result();
