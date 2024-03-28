@@ -17,9 +17,8 @@
     <div class="sidebar">
         <!-- Profile Section -->
         <div class="profile-section">
-                    <?php
-                    
-                    if (isset($_SESSION['profile_picture'])) {
+                    <?php 
+                    if (isset($_SESSION['profile_picture'])&&!empty($_SESSION['profile_picture'])) {
                         echo '<img src="data:image/jpeg;base64,' . $_SESSION['profile_picture'] . '" alt="Profile Picture" id="profile-picture">';
                     } else {
                         echo '<img src="images/profile-icon.png" alt="Profile Picture" id="profile-picture">';
