@@ -23,7 +23,7 @@ if(isset($_POST["username"]) && isset($_POST["password"]) && !empty($_POST["user
     $username = $_POST["username"];
     $password = $_POST["password"];
     
-    $stmt = $conn->prepare("SELECT password, admin, id, enabled, image FROM User WHERE username = ?");
+    $stmt = $conn->prepare("SELECT password, admin, id, enabled, image FROM user WHERE username = ?");
     $stmt->bind_param('s', $username);
     
     if ($stmt->execute()) {
