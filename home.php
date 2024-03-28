@@ -7,7 +7,9 @@
     <link rel="stylesheet" href="css/home.css">
 </head>
 <body>
-    <?php include 'navbar.php'; ?>
+    <?php
+    session_start(); 
+    include 'navbar.php'; ?>
     
     
     
@@ -15,18 +17,14 @@
     <div class="sidebar">
         <!-- Profile Section -->
         <div class="profile-section">
-            <?php
-                session_start();
-                if (isset($_SESSION['profile_picture'])) {
-                    $profile_picture = $_SESSION['profile_picture'];
-                }
-                
-                if (isset($profile_picture)) {
-                    echo '<img src="data:image/jpeg;base64,' . base64_encode($profile_picture) . '" alt="Profile Picture" id="profile-picture">';
-                } else {
-                    echo '<img src="images/profile-icon.png" alt="Profile Picture" id="profile-picture">';
-                }
-            ?>
+                    <?php
+                    
+                    if (isset($_SESSION['profile_picture'])) {
+                        echo '<img src="data:image/jpeg;base64,' . $_SESSION['profile_picture'] . '" alt="Profile Picture" id="profile-picture">';
+                    } else {
+                        echo '<img src="images/profile-icon.png" alt="Profile Picture" id="profile-picture">';
+                    }
+                ?>
         </div>
         <!-- End of Profile Section -->
 
