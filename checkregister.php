@@ -47,11 +47,10 @@ if (isset($_POST["username"], $_POST["password"], $_POST["email"]) && !empty($_P
         header("Location: register.php?message=Error: " . $stmt->error);
         exit();
     }
-    $stmt->close();
+
 } else {
     header("Location: register.php?message=All fields are required");
     exit();
 }
 
-$conn->close();
 ?>
