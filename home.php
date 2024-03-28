@@ -16,7 +16,8 @@
         <div class="profile-section">
                     <?php 
                     if (isset($_SESSION['profile_picture'])&&!empty($_SESSION['profile_picture'])) {
-                        echo '<img src="data:image/jpeg;base64,' . $_SESSION['profile_picture'] . '" alt="Profile Picture" id="profile-picture">';
+                        $base64Image = base64_encode($_SESSION['profile_picture']);
+                        echo '<img src="data:image/jpeg;base64,' . $base64Image . '" alt="Profile Picture" id="profile-picture">';
                     } else {
                         echo '<img src="images/profile-icon.png" alt="Profile Picture" id="profile-picture">';
                     }
