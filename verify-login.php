@@ -12,7 +12,7 @@ if ($conn->connect_error) {
 if(isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
 
-    $stmt = $conn->prepare("SELECT * FROM User WHERE username = ?;");
+    $stmt = $conn->prepare("SELECT * FROM user WHERE username = ?;");
     $stmt->bind_param('s', $username);
     
     if ($stmt->execute()) {
