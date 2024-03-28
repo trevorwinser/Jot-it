@@ -14,10 +14,12 @@ include 'verify-admin.php';
 $message = $_GET['message'] ?? '';
 $comment_id = $_GET['comment_id'] ?? '';
 
+    
 $servername = "localhost";
-$username_db = "root";
-$password_db = "";
-$dbname = "jot-it";
+$username = "61837175";
+$password = "61837175";
+$dbname = "db_61837175";
+
 
 $conn = new mysqli($servername, $username_db, $password_db, $dbname);
 
