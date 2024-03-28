@@ -18,7 +18,7 @@ if ($conn->connect_error) {
 }
 
 // Prepare and execute SQL query to fetch user details
-$stmt = $conn->prepare("SELECT username, enabled FROM User WHERE id = ?");
+$stmt = $conn->prepare("SELECT username, enabled FROM user WHERE id = ?");
 $stmt->bind_param('i', $user_id);
 $stmt->execute();
 $result = $stmt->get_result();

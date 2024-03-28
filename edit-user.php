@@ -26,7 +26,7 @@ if ($conn->connect_error) {
 }
 
 // Check if the user exists
-$stmt = $conn->prepare("SELECT id, username, enabled FROM User WHERE id = ?");
+$stmt = $conn->prepare("SELECT id, username, enabled FROM user WHERE id = ?");
 $stmt->bind_param('i', $user_id);
 $stmt->execute();
 $result = $stmt->get_result();

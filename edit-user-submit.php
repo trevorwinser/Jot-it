@@ -21,13 +21,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     try {
         if (!empty($new_username)) {
-            $stmt = $conn->prepare("UPDATE User SET username = ? WHERE id = ?");
+            $stmt = $conn->prepare("UPDATE user SET username = ? WHERE id = ?");
             $stmt->bind_param('si', $new_username, $user_id);
             $stmt->execute();
             $stmt->close();
         }
 
-        $stmt = $conn->prepare("UPDATE User SET enabled = ? WHERE id = ?");
+        $stmt = $conn->prepare("UPDATE user SET enabled = ? WHERE id = ?");
         $stmt->bind_param('ii', $enabled, $user_id);
         $stmt->execute();
         $stmt->close();

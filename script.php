@@ -16,7 +16,7 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 //   echo "Error: " . $sql . "<br>" . $conn->error;
 // }
 
-$sql = "SELECT username, password FROM User";
+$sql = "SELECT username, password FROM user";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
