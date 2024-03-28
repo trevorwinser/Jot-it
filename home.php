@@ -16,36 +16,14 @@
         <!-- Profile Section -->
         <div class="profile-section">
             <?php
-                $servername = "localhost";
-                $username = "root";
-                $password = "";
-                $dbname = "jot-it";
-
-                $conn = new mysqli($servername, $username, $password, $dbname);
-
-                if ($conn->connect_error) {
-                    die("Connection failed: " . $conn->connect_error);
+                if (isset($_SESSION['profile_picture'])) {
+                    $profile_picture = $_SESSION['profile_picture'];
                 }
-
-                if (isset($_SESSION['username'])) {
-                    $username = $_SESSION['username'];
-                    $stmt = $conn->prepare("SELECT image FROM User WHERE username = ?");
-                    $stmt->bind_param('s', $username);
-
-                    if ($stmt->execute()) {
-                        $result = $stmt->get_result();
-                        if ($result->num_rows > 0) {
-                            $row = $result->fetch_assoc();
-                            $profile_picture = $row['image'];
-
-                            if ($profile_picture) {
-                                echo '<img src="data:image/jpeg;base64,' . base64_encode($profile_picture) . '" alt="Profile Picture" id="profile-picture">';
-                            } else {
-                                echo '<img src="images/profile-icon.png" alt="Profile Picture" id="profile-picture">';
-                            }
-                        }
-                    }
-                    $conn->close();
+                
+                if (isset($profile_picture)) {
+                    echo '<img src="data:image/jpeg;base64,' . base64_encode($profile_picture) . '" alt="Profile Picture" id="profile-picture">';
+                } else {
+                    echo '<img src="images/profile-icon.png" alt="Profile Picture" id="profile-picture">';
                 }
             ?>
         </div>

@@ -16,7 +16,7 @@ if(isset($_POST["username"]) && isset($_POST["password"]) && !empty($_POST["user
     $username = $_POST["username"];
     $password = $_POST["password"];
     
-    $stmt = $conn->prepare("SELECT password, admin, id, enabled FROM User WHERE username = ?");
+    $stmt = $conn->prepare("SELECT password, admin, id, enabled, image FROM User WHERE username = ?");
     $stmt->bind_param('s', $username);
     
     if ($stmt->execute()) {
@@ -28,6 +28,7 @@ if(isset($_POST["username"]) && isset($_POST["password"]) && !empty($_POST["user
                     $_SESSION['username'] = $username;
                     $_SESSION['admin'] = $row['admin'];
                     $_SESSION['id'] = $row['id'];
+                    $_SESSION['profile_picture'] = $row['image'];
                     header("Location: home.php");
                     exit();
                 } else {

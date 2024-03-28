@@ -31,8 +31,34 @@ if (isset($_GET['id'])) {
 
     if ($result->num_rows > 0) {
         $post = $result->fetch_assoc();
+        
 
         echo '<div class="post">';
+        echo '<button id="myButton" class="float-left submit-button" >Category: ';
+
+        switch ($post['category']) {
+            case 1:
+                echo 'Art';
+                break;
+            case 2:
+                echo 'Food';
+                break;
+            case 3:
+                echo 'Sports';
+                break;
+            case 4:
+                echo 'Travel';
+                break;
+            default:
+                echo 'Unknown';
+        }
+
+        echo '</button>';
+        echo '<script type="text/javascript"> document.getElementById("myButton").onclick = function () {';
+        echo 'location.href = "categories.php?category='.$post['category'].'";';
+        echo '};';
+        echo '</script>';
+
         echo '<h2>' . htmlspecialchars($post['title']) . '</h2>';  
         echo '<p>' . nl2br(htmlspecialchars($post['body'])) . '</p>';
         echo '<p>Posted by: ' . htmlspecialchars($post['poster_username']) . '</p>';

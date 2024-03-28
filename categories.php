@@ -10,66 +10,42 @@
     <?php include 'navbar.php'; ?>
     
     <main>
-    <div class="sidebar">
-        <!-- Profile Section -->
-        <div class="profile-section">
-            <?php
-                $servername = "localhost";
-                $username = "root";
-                $password = "";
-                $dbname = "jot-it";
-
-                $conn = new mysqli($servername, $username, $password, $dbname);
-
-                if ($conn->connect_error) {
-                    die("Connection failed: " . $conn->connect_error);
-                }
-
-                if (isset($_SESSION['username'])) {
-                    $username = $_SESSION['username'];
-                    $stmt = $conn->prepare("SELECT image FROM User WHERE username = ?");
-                    $stmt->bind_param('s', $username);
-
-                    if ($stmt->execute()) {
-                        $result = $stmt->get_result();
-                        if ($result->num_rows > 0) {
-                            $row = $result->fetch_assoc();
-                            $profile_picture = $row['image'];
-
-                            if ($profile_picture) {
-                                echo '<img src="data:image/jpeg;base64,' . base64_encode($profile_picture) . '" alt="Profile Picture" id="profile-picture">';
-                            } else {
-                                echo '<img src="images/profile-icon.png" alt="Profile Picture" id="profile-picture">';
-                            }
-                        }
+        <div class="sidebar">
+            <!-- Profile Section -->
+            <div class="profile-section">
+                <?php
+                    $profile_picture = $_SESSION['profile_picture'];
+                    
+                    if ($profile_picture) {
+                        echo '<img src="data:image/jpeg;base64,' . base64_encode($profile_picture) . '" alt="Profile Picture" id="profile-picture">';
+                    } else {
+                        echo '<img src="images/profile-icon.png" alt="Profile Picture" id="profile-picture">';
                     }
-                    $conn->close();
-                }
-            ?>
-        </div>
-        <!-- End of Profile Section -->
+                ?>
+            </div>
+            <!-- End of Profile Section -->
 
-        <!-- Bookmarks Container -->
-        <div class="bookmarks-container">
-            <div class="bookmark" id="bookmark1">
-                <img src="images/bookmark1.png" alt="Bookmark 1">
-                <p><a href="categories.php?category=1">Art</a></p>
+            <!-- Bookmarks Container -->
+            <div class="bookmarks-container">
+                <div class="bookmark" id="bookmark1">
+                    <img src="images/bookmark1.png" alt="Bookmark 1">
+                    <p><a href="categories.php?category=1">Art</a></p>
+                </div>
+                <div class="bookmark" id="bookmark2">
+                    <img src="images/bookmark2.png" alt="Bookmark 2">
+                    <p><a href="categories.php?category=2">Food</a></p>
+                </div>
+                <div class="bookmark" id="bookmark3">
+                    <img src="images/bookmark3.png" alt="Bookmark 3">
+                    <p><a href="categories.php?category=3">Sports</a></p>
+                </div>
+                <div class="bookmark" id="bookmark4">
+                    <img src="images/bookmark4.png" alt="Bookmark 4">
+                    <p><a href="categories.php?category=4">Travel</a></p>
+                </div>
             </div>
-            <div class="bookmark" id="bookmark2">
-                <img src="images/bookmark2.png" alt="Bookmark 2">
-                <p><a href="categories.php?category=2">Food</a></p>
-            </div>
-            <div class="bookmark" id="bookmark3">
-                <img src="images/bookmark3.png" alt="Bookmark 3">
-                <p><a href="categories.php?category=3">Sports</a></p>
-            </div>
-            <div class="bookmark" id="bookmark4">
-                <img src="images/bookmark4.png" alt="Bookmark 4">
-                <p><a href="categories.php?category=4">Travel</a></p>
-            </div>
+            <!-- End of Bookmarks Container -->
         </div>
-        <!-- End of Bookmarks Container -->
-    </div>
         <div id="postboardContainer">
             <div id="postboard"></div>
             <div id="postboardImg"></div>

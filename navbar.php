@@ -9,6 +9,29 @@
         <nav>
             <a href="home.php">Home</a>
             <a href="create-post.php">Create Post</a>
+            <?php
+                if (isset($_GET['category'])) {
+                    echo '<a href="categories.php?category='.$_GET['category'].'">Category: ';
+                    switch ($_GET['category']) {
+                        case 1:
+                            echo 'Art';
+                            break;
+                        case 2:
+                            echo 'Food';
+                            break;
+                        case 3:
+                            echo 'Sports';
+                            break;
+                        case 4:
+                            echo 'Travel';
+                            break;
+                        default:
+                            echo 'Category not defined';
+                    }
+                    echo '</a>';
+                }
+            ?>
+
             <div class="right-side">
             <?php 
                 session_start();
