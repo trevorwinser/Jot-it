@@ -16,14 +16,15 @@
         <!-- Profile Section -->
         <div class="profile-section">
             <?php
+                session_start();
                 if (isset($_SESSION['profile_picture'])) {
                     $profile_picture = $_SESSION['profile_picture'];
                 }
                 
                 if (isset($profile_picture)) {
-                    echo '<img src="data:image/jpeg;base64,' . base64_encode($profile_picture) . '" alt="Profile Picture" id="profile-picture">';
+                    echo '<img src="./data:image/jpeg;base64,' . base64_encode($profile_picture) . '" alt="Profile Picture" id="profile-picture">';
                 } else {
-                    echo '<img src="images/profile-icon.png" alt="Profile Picture" id="profile-picture">';
+                    echo '<img src="./images/profile-icon.png" alt="Profile Picture" id="profile-picture">';
                 }
             ?>
         </div>
