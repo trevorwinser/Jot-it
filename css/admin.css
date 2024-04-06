@@ -23,3 +23,10 @@ body {
     padding: 40px;
     margin: 40px;
 }
+
+/* Further adjustments for smaller screens */
+@media screen and (max-width: 480px) {
+    th, td {
+        font-size: 12px; /* Even larger font size for small screens */
+    }
+}

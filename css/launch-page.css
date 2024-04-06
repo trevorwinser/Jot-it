@@ -44,3 +44,16 @@ body, html {
 .start-button:hover {
     background-color: #cc00cc;
 }
+
+@media (max-width: 768px) {
+    .button-container {
+        bottom: 10%; /* Closer to the bottom on smaller screens */
+        width: 80%; /* Full width for better visibility */
+        margin-top: 0; 
+    }
+
+    .start-button {
+        padding: 15px 25px; /* Smaller padding on smaller screens */
+        font-size: 1em; /* Smaller font size for smaller screens */
+    }
+}

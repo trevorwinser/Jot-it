@@ -24,3 +24,15 @@ p {
     text-align: center;
     font-size: 20px;
 }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    table {
+        width: 80%; 
+        margin: 10px; 
+    }
+
+    p, input[type="submit"], input {
+        font-size: 14px; 
+    }
+}
