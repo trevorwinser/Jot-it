@@ -1,65 +1,27 @@
-body {
+body{
     background-color: #F3F8FF;
-    font-family: 'Arial', sans-serif; 
-}
 
-input[type="text"],
-textarea {
-    background-color: #FFFFFF; 
-    border: 1px solid #B0BEC5; /* Adding a border for better visibility */
-    padding: 10px; 
-    font-size: 1em; 
 }
-
-input[type="text"]:focus,
-textarea:focus {
+input[type=text]:focus{
     background-color: #c6e7fc;
-    outline: 3px solid #83B9FF; /* Stronger focus indicator */
-    outline-offset: 2px; 
 }
-
+textarea:focus{
+    background-color: #c6e7fc;
+}
 .group-form {
-    margin-left: 42%;
-
+    margin: auto;
+    width: 11%;
+    padding: 100px;
 }
 
 button {
     background-color: #837CD6;
     border: none;
     color: white;
-    padding: 15px 30px; /* Larger padding for better touch targets */
+    padding: 15px 15px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-    margin: 10px 0; /* Space around buttons */
-    cursor: pointer; /* Indicates it's clickable */
-    border-radius: 4px; 
-}
-
-button:hover,
-button:focus {
-    background-color: #6b61d6; /* Slightly darker on hover/focus */
-}
-
-/* Responsive adjustments */
-@media screen and (max-width: 768px) {
-    .group-form {
-        width: 90%; /* More width for smaller screens */
-    }
-
-    button {
-        width: 100%; /* Full width buttons on smaller screens */
-    }
-}
-
-@media screen and (max-width: 480px) {
-    .group-form {
-        padding: 10px; /* Less padding on very small screens */
-    }
-
-    input[type="text"],
-    textarea {
-        font-size: 1.1em; /* Larger text on very small screens */
-    }
+    position: relative;
 }
