@@ -11,31 +11,63 @@
     include 'navbar.php'; 
     include 'verify-admin.php';
 
+    // Database connection
     $servername = "localhost";
     $username = "root";
     $password = "";
     $dbname = "jot-it";
     $conn = new mysqli($servername, $username, $password, $dbname);
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
 
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
-
-    // Include login-statistics.php here
     include 'login-statistics.php';
+    $stats = getLoginStats($conn); // Fetch login statistics
 
-    // Fetch login statistics
-    $stats = getLoginStats($conn); // Ensure you're calling getLoginStats with $conn
-    $loginsToday = $stats['today'];
-    $loginsWeek = $stats['week'];
-    $loginsMonth = $stats['month'];
+    // Check if $stats is set and is an array with all necessary keys.
+    if (isset($stats) && is_array($stats) && isset($stats['today'], $stats['week'], $stats['month'])) {
+        $loginsToday = $stats['today'];
+        $loginsWeek = $stats['week'];
+        $loginsMonth = $stats['month'];
+    } else {
+        // Handle the case where $stats is not set as expected.
+        $loginsToday = $loginsWeek = $loginsMonth = "Statistics not available";
+    }
 
     // Display the statistics.
     echo "Logins today: " . $loginsToday . "<br>";
     echo "Logins this week: " . $loginsWeek . "<br>";
     echo "Logins this month: " . $loginsMonth . "<br>";
 
-    ?>
+    // Safely calculate max value to avoid division by zero
+    $maxLogins = max($loginsToday, $loginsWeek, $loginsMonth);
+    $maxLogins = ($maxLogins == 0) ? 1 : $maxLogins; // Prevent division by zero
+
+   // Visualization example:
+echo "<div style='margin-top: 20px;'>";
+echo "<div style='margin-bottom: 20px;'>
+    <strong>Logins Today:</strong>
+    <div style='width: 100%; background-color: #f1f1f1;'>
+        <div style='width: " . ($loginsToday / max($loginsToday, $loginsWeek, $loginsMonth) * 100) . "%; background-color: #4CAF50; padding: 10px; color: white;'>" . $loginsToday . "</div>
+    </div>
+</div>";
+
+echo "<div style='margin-bottom: 20px;'>
+    <strong>Logins This Week:</strong>
+    <div style='width: 100%; background-color: #f1f1f1;'>
+        <div style='width: " . ($loginsWeek / max($loginsToday, $loginsWeek, $loginsMonth) * 100) . "%; background-color: #2196F3; padding: 10px; color: white;'>" . $loginsWeek . "</div>
+    </div>
+</div>";
+
+echo "<div style='margin-bottom: 20px;'>
+    <strong>Logins This Month:</strong>
+    <div style='width: 100%; background-color: #f1f1f1;'>
+        <div style='width: " . ($loginsMonth / max($loginsToday, $loginsWeek, $loginsMonth) * 100) . "%; background-color: #ff9800; padding: 10px; color: white;'>" . $loginsMonth . "</div>
+    </div>
+</div>";
+echo "</div>";
+
+?>
 
     <?php
     if (isset($_GET['delete_status'])) {
