@@ -1,9 +1,9 @@
 <?php
 session_start();
 $servername = "localhost";
-$username = "61837175";
-$password = "61837175";
-$dbname = "db_61837175";
+$username = "root";
+$password = "";
+$dbname = "jot-it";
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);

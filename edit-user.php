@@ -15,9 +15,9 @@ $message = $_GET['message'] ?? '';  // Clever way to avoid dealing with if(isset
 $user_id = $_GET['user_id'] ?? '';
 
 $servername = "localhost";
-$username = "61837175";
-$password = "61837175";
-$dbname = "db_61837175";
+$username = "root";
+$password = "";
+$dbname = "jot-it";
 
 $conn = new mysqli($servername, $username_db, $password_db, $dbname);
 

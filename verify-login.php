@@ -1,8 +1,8 @@
 <?php
 $servername = "localhost";
-$username = "61837175";
-$password = "61837175";
-$dbname = "db_61837175";
+$username = "root";
+$password = "";
+$dbname = "jot-it";
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 if ($conn->connect_error) {

@@ -4,9 +4,9 @@ include 'verify-admin.php';
 if (isset($_GET['user_id'])) {
     $user_id = $_GET['user_id'];
     $servername = "localhost";
-    $username = "61837175";
-    $password = "61837175";
-    $dbname = "db_61837175";
+    $username = "root";
+    $password = "";
+    $dbname = "jot-it";
 
     $conn = new mysqli($servername, $username, $password, $dbname);
 

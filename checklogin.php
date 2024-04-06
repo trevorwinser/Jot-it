@@ -8,9 +8,9 @@ error_reporting(E_ALL);
 
 if(isset($_POST["username"]) && isset($_POST["password"]) && !empty($_POST["username"]) && !empty($_POST["password"])) {
     $servername = "localhost";
-    $username = "61837175";
-    $password = "61837175";
-    $dbname = "db_61837175";
+    $username = "root";
+    $password = "";
+    $dbname = "jot-it";
 
     $conn = new mysqli($servername, $username, $password, $dbname);
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);

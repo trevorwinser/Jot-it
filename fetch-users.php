@@ -4,11 +4,10 @@ $user_id = $_GET['user_id'] ?? '';
 $username = '';
 $enabled = '';
 
-
 $servername = "localhost";
-$username = "61837175";
-$password = "61837175";
-$dbname = "db_61837175";
+$username = "root";
+$password = "";
+$dbname = "jot-it";
 
 $conn = new mysqli($servername, $username_db, $password_db, $dbname);
 
