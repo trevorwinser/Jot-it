@@ -10,12 +10,25 @@
     <?php 
     include 'navbar.php'; 
     include 'verify-admin.php';
-   
+
     $servername = "localhost";
     $username = "root";
     $password = "";
     $dbname = "jot-it";
     $conn = new mysqli($servername, $username, $password, $dbname);
+
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+    // Include login-statistics.php here
+    include 'login-statistics.php';
+
+    // Fetch login statistics
+    $stats = getLoginStats($conn); // Ensure you're calling getLoginStats with $conn
+    $loginsToday = $stats['today'];
+    $loginsWeek = $stats['week'];
+    $loginsMonth = $stats['month'];
 
     // Display the statistics.
     echo "Logins today: " . $loginsToday . "<br>";
