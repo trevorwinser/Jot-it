@@ -9,8 +9,14 @@
 </head>
 <body>
     <?php
+        if (isset($_SESSION['user_id'])) { 
+            header('Location: home.php'); 
+            exit();
+        }
+        
         include 'navbar.php';
-        mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+        include 'verify-login.php'
+
     ?>
     <table>
         <tr>
