@@ -45,11 +45,22 @@
             </div>
         </div>
         <!-- End of Bookmarks Container -->
+
+                <!-- Search Form -->
+    <div class="search-container">
+            <form action="home.php" method="GET">
+            <input type="text" placeholder="Search posts..." name="search">
+            <button type="submit">Search</button>
+    </form>
+        </div>
     </div>
         <div id="postboardContainer">
             <div id="postboard"></div>
             <div id="postboardImg"></div>
         </div>
+
+
+
     </main>
 
 </body>
