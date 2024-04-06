@@ -1,25 +1,81 @@
+body {
+    padding: 20px;
+    margin: 20px;
+    font-family: Arial, sans-serif; /* Improved readability */
+}
+
 table {
     border-collapse: collapse;
     width: 100%;
-    margin: auto; /* Center the table horizontally */
-    padding: 20px;
+    margin: auto; 
 }
+
 th, td {
     border: 1px solid #dddddd;
     text-align: left;
-    padding: 8px;
+    padding: 12px; /* Increased for readability */
 }
+
 th {
     background-color: #f2f2f2;
+    color: #333; 
 }
+
 img {
-    display: block; 
-    width: 10%; 
-    height: auto; 
-    border-radius: 50%; 
-    margin-bottom: 0.5em;
+    display: block;
+    max-width: 100%; 
+    height: auto;
+    border-radius: 50%;
+    margin: auto; 
+    padding: 10px 0; 
 }
-body {
-    padding: 40px;
-    margin: 40px;
+
+@media screen and (max-width: 768px) {
+    body {
+        padding: 10px;
+        margin: 10px;
+    }
+
+    th, td {
+        padding: 8px; 
+        font-size: 14px; 
+    }
+
+    table, thead, tbody, th, td, tr {
+        display: block;
+    }
+
+    /* Hide table headers on mobile */
+    thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    tr { border: 1px solid #ccc; }
+
+    td {
+        border: none;
+        border-bottom: 1px solid #eee;
+        position: relative;
+        padding-left: 50%;
+    }
+
+    td:before {
+        position: absolute;
+        top: 6px;
+        left: 6px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        content: attr(data-label); /* Use a data attribute on each td */
+        font-weight: bold;
+    }
+}
+
+/* Further adjustments for smaller screens */
+@media screen and (max-width: 480px) {
+    th, td {
+        font-size: 12px; /* Even larger font size for small screens */
+    }
 }

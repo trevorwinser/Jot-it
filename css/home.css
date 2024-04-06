@@ -121,6 +121,11 @@ body {
     margin-top: 10%;
 }
 
-
-
-
+/* Accessibility enhancements */
+a:focus,
+button:focus,
+input[type="text"]:focus,
+textarea:focus {
+    outline: 3px solid #76baff; /* Add strong outline for focus state */
+    outline-offset: 2px;
+}

@@ -2,45 +2,64 @@ body, html {
     margin: 0;
     padding: 0;
     height: 100%;
-    font-family: 'Press Start 2P', cursive;
+    font-family: Arial, sans-serif; /* More readable font for accessibility */
 }
 
 .background {
     width: 100%;
     height: 100vh;
-    position: relative; /* Needed for absolute positioning of children */
+    position: relative; 
     display: flex;
-    justify-content: center; /* Center children horizontally */
-    align-items: center; /* Center children vertically */
+    justify-content: center; 
+    align-items: center; 
+    overflow: hidden; 
 }
 
 .background-image {
     width: 100%;
-    height: auto;
-    position: absolute; /* Absolute position to overlay on the .background */
+    height: auto; /* Maintain aspect ratio */
+    position: absolute;
     top: 0;
     left: 0;
-    z-index: 1; /* Ensures the background image is below other content */
+    z-index: 1; /* Behind other content */
+    object-fit: cover; 
 }
 
 .button-container {
-    position: absolute; /* Position absolutely to place it at the desired location */
-    bottom: 20%; /* Position from the bottom of the viewport */
-    left: 50%; /* Start at the half-width of the viewport */
-    transform: translateX(-50%); /* Center horizontally */
-    z-index: 3; /* On top of the logo and background */
+    position: relative; /* Adjusted for better positioning */
+    margin-top: -20%; /* Offset from the vertical center */
+    text-align: center; 
+    z-index: 2; /* Above the background */
 }
 
 .start-button {
     background-color: #ff00ff;
     color: white;
     padding: 20px 30px;
-    font-size: 1.2em;
+    font-size: 1.5em; /* Larger font size for readability */
+    border: none; 
     border-radius: 20px;
-    text-decoration: none; /* Remove underline from link */
-    display: inline-block; /* To apply padding and centering */
+    cursor: pointer; /* Indicate that it's clickable */
+    text-decoration: none;
+    display: inline-block;
 }
 
-.start-button:hover {
-    background-color: #cc00cc;
+.start-button:hover, .start-button:focus {
+    background-color: #cc00cc; /* Darker shade on hover/focus for visibility */
+    outline: none; 
+    box-shadow: 0 0 0 3px #ff00ff; /* Custom focus indicator */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .button-container {
+        bottom: 10%; /* Closer to the bottom on smaller screens */
+        width: 80%; /* Full width for better visibility */
+        margin-top: 0; 
+    }
+
+    .start-button {
+        padding: 15px 25px; /* Smaller padding on smaller screens */
+        font-size: 1em; /* Smaller font size for smaller screens */
+    }
 }
