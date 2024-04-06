@@ -1,8 +1,8 @@
 <?php
 $servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "jot-it";
+$username = "61837175";
+$password = "61837175";
+$dbname = "db_61837175";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -16,7 +16,7 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 //   echo "Error: " . $sql . "<br>" . $conn->error;
 // }
 
-$sql = "SELECT username, password FROM User";
+$sql = "SELECT username, password FROM user";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {

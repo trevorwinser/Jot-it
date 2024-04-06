@@ -1,22 +1,29 @@
 <?php
 session_start();
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+
 if(isset($_POST["username"]) && isset($_POST["password"]) && !empty($_POST["username"]) && !empty($_POST["password"])) {
     $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "jot-it";
+    $username = "61837175";
+    $password = "61837175";
+    $dbname = "db_61837175";
 
     $conn = new mysqli($servername, $username, $password, $dbname);
+    mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
+        
     }
     
     $username = $_POST["username"];
     $password = $_POST["password"];
     
-    $stmt = $conn->prepare("SELECT password, admin, id, enabled, image FROM User WHERE username = ?");
+    $stmt = $conn->prepare("SELECT password, admin, id, enabled, image FROM user WHERE username = ?");
     $stmt->bind_param('s', $username);
     
     if ($stmt->execute()) {

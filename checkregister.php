@@ -1,11 +1,17 @@
 <?php
 session_start();
 $servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "jot-it";
+$username = "61837175";
+$password = "61837175";
+$dbname = "db_61837175";
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 
 $conn = new mysqli($servername, $username, $password, $dbname);
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
@@ -20,7 +26,7 @@ if (isset($_POST["username"], $_POST["password"], $_POST["email"]) && !empty($_P
         exit();
     }
 
-    $stmt = $conn->prepare("SELECT * FROM User WHERE username = ?");
+    $stmt = $conn->prepare("SELECT * FROM user WHERE username = ?");
     $stmt->bind_param("s", $username);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -41,11 +47,10 @@ if (isset($_POST["username"], $_POST["password"], $_POST["email"]) && !empty($_P
         header("Location: register.php?message=Error: " . $stmt->error);
         exit();
     }
-    $stmt->close();
+
 } else {
     header("Location: register.php?message=All fields are required");
     exit();
 }
 
-$conn->close();
 ?>

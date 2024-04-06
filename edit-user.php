@@ -15,9 +15,9 @@ $message = $_GET['message'] ?? '';  // Clever way to avoid dealing with if(isset
 $user_id = $_GET['user_id'] ?? '';
 
 $servername = "localhost";
-$username_db = "root";
-$password_db = "";
-$dbname = "jot-it";
+$username = "61837175";
+$password = "61837175";
+$dbname = "db_61837175";
 
 $conn = new mysqli($servername, $username_db, $password_db, $dbname);
 
@@ -26,7 +26,7 @@ if ($conn->connect_error) {
 }
 
 // Check if the user exists
-$stmt = $conn->prepare("SELECT id, username, enabled FROM User WHERE id = ?");
+$stmt = $conn->prepare("SELECT id, username, enabled FROM user WHERE id = ?");
 $stmt->bind_param('i', $user_id);
 $stmt->execute();
 $result = $stmt->get_result();

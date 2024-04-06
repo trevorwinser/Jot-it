@@ -1,10 +1,8 @@
 <?php
-
 $servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "jot-it";
-
+$username = "61837175";
+$password = "61837175";
+$dbname = "db_61837175";
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 if ($conn->connect_error) {
@@ -14,7 +12,7 @@ if ($conn->connect_error) {
 if(isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
 
-    $stmt = $conn->prepare("SELECT * FROM User WHERE username = ?;");
+    $stmt = $conn->prepare("SELECT * FROM user WHERE username = ?;");
     $stmt->bind_param('s', $username);
     
     if ($stmt->execute()) {
