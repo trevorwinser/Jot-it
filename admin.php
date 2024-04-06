@@ -10,6 +10,18 @@
     <?php 
     include 'navbar.php'; 
     include 'verify-admin.php';
+   
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "jot-it";
+    $conn = new mysqli($servername, $username, $password, $dbname);
+
+    // Display the statistics.
+    echo "Logins today: " . $loginsToday . "<br>";
+    echo "Logins this week: " . $loginsWeek . "<br>";
+    echo "Logins this month: " . $loginsMonth . "<br>";
+
     ?>
 
     <?php
@@ -144,4 +156,5 @@
     $conn->close();
     ?>
 </body>
+
 </html>
