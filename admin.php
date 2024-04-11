@@ -10,17 +10,7 @@
     <?php 
     include 'navbar.php'; 
     include 'verify-admin.php';
-
-    // Database connection
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "jot-it";
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
+    include 'conn.php';
     include 'login-statistics.php';
     $stats = getLoginStats($conn); // Fetch login statistics
 
@@ -34,11 +24,6 @@
         $loginsToday = $loginsWeek = $loginsMonth = "Statistics not available";
     }
 
-    // Display the statistics.
-    echo "Logins today: " . $loginsToday . "<br>";
-    echo "Logins this week: " . $loginsWeek . "<br>";
-    echo "Logins this month: " . $loginsMonth . "<br>";
-
     // Safely calculate max value to avoid division by zero
     $maxLogins = max($loginsToday, $loginsWeek, $loginsMonth);
     $maxLogins = ($maxLogins == 0) ? 1 : $maxLogins; // Prevent division by zero
@@ -46,21 +31,21 @@
    // Visualization example:
 echo "<div style='margin-top: 20px;'>";
 echo "<div style='margin-bottom: 20px;'>
-    <strong>Logins Today:</strong>
+    <strong>Unique Logins Today:</strong>
     <div style='width: 100%; background-color: #f1f1f1;'>
         <div style='width: " . ($loginsToday / max($loginsToday, $loginsWeek, $loginsMonth) * 100) . "%; background-color: #4CAF50; padding: 10px; color: white;'>" . $loginsToday . "</div>
     </div>
 </div>";
 
 echo "<div style='margin-bottom: 20px;'>
-    <strong>Logins This Week:</strong>
+    <strong>Unique Logins This Week:</strong>
     <div style='width: 100%; background-color: #f1f1f1;'>
         <div style='width: " . ($loginsWeek / max($loginsToday, $loginsWeek, $loginsMonth) * 100) . "%; background-color: #2196F3; padding: 10px; color: white;'>" . $loginsWeek . "</div>
     </div>
 </div>";
 
 echo "<div style='margin-bottom: 20px;'>
-    <strong>Logins This Month:</strong>
+    <strong>Unique Logins This Month:</strong>
     <div style='width: 100%; background-color: #f1f1f1;'>
         <div style='width: " . ($loginsMonth / max($loginsToday, $loginsWeek, $loginsMonth) * 100) . "%; background-color: #ff9800; padding: 10px; color: white;'>" . $loginsMonth . "</div>
     </div>
@@ -146,9 +131,9 @@ echo "</div>";
             foreach ($row as $key => $value) {
                 if ($key === 'image') {
                     if ($value) {
-                        echo '<td><img src="data:image/jpeg;base64,' . base64_encode($value) . '" alt="Profile Picture"></td>';
+                        echo '<td><img src="data:image/jpeg;base64,' . base64_encode($value) . '" alt="Profile Picture" class="user"></td>';
                     } else {
-                        echo '<td><img src="images/profile-icon.png" alt="Profile Picture"></td>';
+                        echo '<td><img src="images/profile-icon.png" alt="Profile Picture" class="user"></td>';
                     }
                 } else {
                     echo "<td>".$value."</td>";
@@ -196,7 +181,46 @@ echo "</div>";
         echo "No comments found";
     }
 
+    $sql_posts = "SELECT * FROM post";
+    $stmt_posts = $conn->prepare($sql_posts);
+    $stmt_posts->execute();
+    $result_posts = $stmt_posts->get_result();
+
+    if (!$result_posts) {
+        die("Error executing query: " . $stmt_posts->error);
+    }
+
     echo "<h2>Posts</h2>";
+    if ($result_posts->num_rows > 0) {
+        echo "<table><tr>";
+        while ($fieldinfo_posts = $result_posts->fetch_field()) {
+            echo "<th>".$fieldinfo_posts->name."</th>";
+        }
+        echo "<th>Edit</th>";
+        echo "<th>Delete</th>";
+        echo "</tr>";
+
+        while($row_posts = $result_posts->fetch_assoc()) {
+            echo "<tr>";
+            foreach ($row_posts as $key_posts => $value_posts) {
+                if ($key_posts === 'image') {
+                    if ($value_posts) {
+                        echo '<td><img src="data:image/jpeg;base64,' . base64_encode($value_posts) . '" alt="Post Image" class="post"></td>';
+                    } else {
+                        echo '<td>No Image</td>';
+                    }
+                } else {
+                    echo "<td>".$value_posts."</td>";
+                }
+            }
+            echo "<td><a href='edit-post.php?post_id=".$row_posts['id']."'>Edit</a></td>";
+            echo "<td><a href='delete-post.php?post_id=".$row_posts['id']."' onclick='return confirm(\"Are you sure you want to delete this post?\")'>Delete</a></td>";
+            echo "</tr>";
+        }
+        echo "</table>";
+    } else {
+        echo "No comments found";
+    }
 
     $conn->close();
     ?>

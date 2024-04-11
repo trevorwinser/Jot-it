@@ -1,14 +1,6 @@
 <?php
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "jot-it";
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include 'conn.php';
 
 // Skip redirect logic if this script is included from login.php
 $currentPage = basename($_SERVER['PHP_SELF']);

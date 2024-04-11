@@ -1,7 +1,7 @@
 table {
     border-collapse: collapse;
     width: 100%;
-    margin: auto; /* Center the table horizontally */
+    margin: auto;
     padding: 20px;
 }
 th, td {
@@ -12,7 +12,7 @@ th, td {
 th {
     background-color: #f2f2f2;
 }
-img {
+img.user {
     display: block; 
     width: 10%; 
     height: auto; 
@@ -24,9 +24,11 @@ body {
     margin: 40px;
 }
 
-/* Further adjustments for smaller screens */
 @media screen and (max-width: 480px) {
     th, td {
-        font-size: 12px; /* Even larger font size for small screens */
+        font-size: 12px;
     }
+}
+img.post {
+    width:10%;
 }

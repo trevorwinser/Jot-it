@@ -14,7 +14,7 @@
             <!-- Profile Section -->
             <div class="profile-section">
                 <?php
-                    if (isset($_SESSION['profile_picture']))
+                    if (isset($_SESSION['profile_picture'])&&!empty($_SESSION['profile_picture']))
                         $profile_picture = $_SESSION['profile_picture'];
                     
                     if (isset($profile_picture)) {
