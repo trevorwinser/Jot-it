@@ -25,3 +25,25 @@ button {
     font-size: 16px;
     position: relative;
 }
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    .group-form {
+        width: 90%; /* More width for smaller screens */
+    }
+
+    button {
+        width: 100%; /* Full width buttons on smaller screens */
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .group-form {
+        padding: 10px; /* Less padding on very small screens */
+    }
+
+    input[type="text"],
+    textarea {
+        font-size: 1.1em; /* Larger text on very small screens */
+    }
+}

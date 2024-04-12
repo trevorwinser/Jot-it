@@ -7,18 +7,7 @@ error_reporting(E_ALL);
 
 
 if(isset($_POST["username"]) && isset($_POST["password"]) && !empty($_POST["username"]) && !empty($_POST["password"])) {
-    $servername = "localhost";
-    $username = "61837175";
-    $password = "61837175";
-    $dbname = "db_61837175";
-
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-        
-    }
+    include 'conn.php';
     
     $username = $_POST["username"];
     $password = $_POST["password"];

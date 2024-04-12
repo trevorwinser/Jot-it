@@ -121,6 +121,27 @@ body {
     margin-top: 10%;
 }
 
+a:focus,
+button:focus,
+input[type="text"]:focus,
+textarea:focus {
+    outline: 3px solid #76baff;
+    outline-offset: 2px;
+}
 
-
-
+#refreshTimer {
+    z-index: 10;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+.likes {
+    position: relative;
+    left: 80%;
+    font-size: 14px;
+}

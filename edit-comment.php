@@ -15,17 +15,7 @@ $message = $_GET['message'] ?? '';
 $comment_id = $_GET['comment_id'] ?? '';
 
     
-$servername = "localhost";
-$username = "61837175";
-$password = "61837175";
-$dbname = "db_61837175";
-
-
-$conn = new mysqli($servername, $username_db, $password_db, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include 'conn.php';
 
 $stmt = $conn->prepare("SELECT body FROM comment WHERE id = ?");
 $stmt->bind_param("i", $comment_id);

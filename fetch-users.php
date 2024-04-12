@@ -4,18 +4,7 @@ $user_id = $_GET['user_id'] ?? '';
 $username = '';
 $enabled = '';
 
-
-$servername = "localhost";
-$username = "61837175";
-$password = "61837175";
-$dbname = "db_61837175";
-
-$conn = new mysqli($servername, $username_db, $password_db, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include 'conn.php';
 
 // Prepare and execute SQL query to fetch user details
 $stmt = $conn->prepare("SELECT username, enabled FROM user WHERE id = ?");

@@ -2,20 +2,10 @@
 session_start();
 include 'verify-admin.php';
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    include 'conn.php';
+
     $user_id = $_POST['user_id'];
     $username = $_POST['username'];
-
-    $servername = "localhost";
-    $username = "61837175";
-    $password = "61837175";
-    $dbname = "db_61837175";
-
-    $conn = new mysqli($servername, $username_db, $password_db, $dbname);
-
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
     $new_username = $_POST['new_username'];
     $enabled = isset($_POST['enabled']) ? 1 : 0;
 

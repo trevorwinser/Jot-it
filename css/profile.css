@@ -37,3 +37,16 @@ label {
 input[type=checkbox] {
     width: auto; /* Set width to 'auto' to prevent stretching */
 }
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    form {
+        width: 80%; 
+    }
+}
+
+img {
+    max-width: 100%; 
+    height: auto; 
+    display: block; 
+}

@@ -29,7 +29,7 @@
                 echo '</a>';
             }
         ?>
-
+        <a href="random-post.php">Random Post</a> 
         <div class="right-side">
         <?php 
             session_start();

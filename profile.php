@@ -5,111 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
     <link rel="stylesheet" href="css/profile.css">
+    <style>
+        .profile-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .profile-info {
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
 
     <?php
-
     include 'navbar.php';
     include 'verify-login.php';
-
-    $servername = "localhost";
-    $username = "61837175";
-    $password = "61837175";
-    $dbname = "db_61837175";
-
-    $conn = new mysqli($servername, $username, $password, $dbname);
-
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
-    // Initialize message
-    $message = '';
-
-    if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    include 'conn.php';
+    ?>
+    <form action="edit-profile.php" method="get">
+        <h2>Profile</h2>
+        <?php
         // Retrieve current user details
         $username = $_SESSION['username'];
-        $current_password = $_POST['current_password'];
-        $new_username = $_POST['new_username'];
-        $new_password = $_POST['new_password'];
-        $image = $_FILES['image'];
 
-        $stmt = $conn->prepare("SELECT password FROM user WHERE username = ?");
+        $stmt = $conn->prepare("SELECT * FROM user WHERE username = ?");
         $stmt->bind_param('s', $username);
         $stmt->execute();
         $result = $stmt->get_result();
-        $stmt->close();
 
         if ($result->num_rows === 0) {
-            $message = 'User not found';
+            echo '<p>User not found</p>';
         } else {
             $row = $result->fetch_assoc();
-            if (!password_verify($current_password, $row['password'])) {
-                $message = 'Incorrect current password';
+            echo '<p>Username: ' . htmlspecialchars($row['username']) . '</p>';
+            echo '<p>Email: ' . htmlspecialchars($row['email']) . '</p>';
+            // Display profile picture if available
+            if (!empty($row['image'])) {
+                echo '<img src="data:image/jpeg;base64,' . base64_encode($row['image']) . '" alt="Profile Picture">';
             } else {
-                if ($image['error'] == UPLOAD_ERR_OK) {
-                    $check = getimagesize($image['tmp_name']);
-                    if($check !== false) {
-                        $fileType = $check['mime'];
-                        if(in_array($fileType, ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'])) {
-                            $imageData = file_get_contents($image['tmp_name']); 
-                
-                            $stmt = $conn->prepare("UPDATE user SET image = ? WHERE username = ?");
-                            $null = NULL; 
-                            $stmt->bind_param("bs", $null, $username);
-                            $stmt->send_long_data(0, $imageData); 
-                            if ($stmt->execute()) {
-                                $message = 'Profile updated successfully';
-                            } else {
-                                $message = 'Failed to update image';
-                            }
-                            $stmt->close();
-                        } else {
-                            $message = 'Invalid image type. Only JPEG, PNG, and GIF are allowed.';
-                        }
-                    } else {
-                        $message = 'File is not an image.';
-                    }
-                }
-                
-                if (!empty($new_password)) {
-                    $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
-                    $stmt = $conn->prepare("UPDATE user SET password = ? WHERE username = ?");
-                    $stmt->bind_param('ss', $hashed_password, $username);
-                    $stmt->execute();
-                    $message = $stmt->error ? 'Failed to update password' : 'Profile updated successfully';
-                    $stmt->close();
-                }
-
-                if (!empty($new_username)) {
-                    $stmt = $conn->prepare("UPDATE user SET username = ? WHERE username = ?");
-                    $stmt->bind_param('ss', $new_username, $username);
-                    $stmt->execute();
-                    $message = $stmt->error ? 'Failed to update username' : 'Profile updated successfully';
-                    $_SESSION['username'] = $new_username; 
-                    $stmt->close();
-                }
+                echo '<img src="images/profile-icon.png" alt="Profile Picture">';
             }
         }
-    }
-    ?>
-
-    <div>
-    <form action="profile.php" method="post" enctype="multipart/form-data">
-        <h2>Update Profile</h2>
-        <p id="message"><?php echo $message; ?></p>
-        <label for="image">Profile Image:</label><br>
-        <input type="file" id="image" name="image"><br><br>
-        <label for="new_username">New Username:</label><br>
-        <input type="text" id="new_username" name="new_username"><br><br>
-        <label for="current_password">Current Password:</label><br>
-        <input type="password" id="current_password" name="current_password"><br><br>
-        <label for="new_password">New Password:</label><br>
-        <input type="password" id="new_password" name="new_password"><br><br>
-        <input type="submit" value="Save">
+        ?>
+            <input type="submit" value="Edit Profile">
     </form>
-    </div>
+    <form action="comment-history.php">
+        <input type="submit" value ="View Comment History">
+    </form>
 
 </body>
 </html>

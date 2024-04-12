@@ -4,16 +4,7 @@ ini_set('display_errors', 1);
 
 session_start();
 
-$servername = "localhost";
-$username = "61837175";
-$password = "61837175";
-$dbname = "db_61837175";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include 'conn.php';
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $title = trim($_POST['title']);
