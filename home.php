@@ -62,6 +62,7 @@
     </div>
 
 
+    <div id="refreshTimer"></div>
     <div id="postboardContainer">
         <div id="postboard"></div>
         <div id="postboardImg"></div>
@@ -73,7 +74,29 @@
 </body>
 
 <script>
-// Function to handle form submission
+const countdownElement = document.getElementById('refreshTimer');
+function startCountdown() {
+    let timeLeft = 10; 
+
+    const countdownInterval = setInterval(() => {
+        timeLeft--;
+        if (timeLeft < 0) {
+            clearInterval(countdownInterval);
+            fetchNewPosts(); 
+            startCountdown(); 
+        } else {
+            updateCountdownDisplay(timeLeft);
+        }
+    }, 1000);
+}
+function updateCountdownDisplay(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            const formattedTime = `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+            countdownElement.textContent = `Next update in ${formattedTime}`;
+        }
+
+
 function handleSearch(event) {
     event.preventDefault(); // Prevent the form from submitting normally
     const searchInput = document.getElementById('searchInput').value; // Get the value of the search input
@@ -130,6 +153,9 @@ if (search) {
     fetchNewPosts();
     setInterval(fetchNewPosts, 10000);
 }
+
+startCountdown();
+
 </script>
 
 </html>
