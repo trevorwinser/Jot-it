@@ -12,7 +12,8 @@
     include 'verify-admin.php';
     include 'conn.php';
     include 'login-statistics.php';
-    $stats = getLoginStats($conn); // Fetch login statistics
+    $selectedDate = isset($_GET['date']) ? $_GET['date'] : date("Y-m-d");
+    $stats = getLoginStats($conn, $selectedDate); 
 
     // Check if $stats is set and is an array with all necessary keys.
     if (isset($stats) && is_array($stats) && isset($stats['today'], $stats['week'], $stats['month'])) {
@@ -29,6 +30,11 @@
     $maxLogins = ($maxLogins == 0) ? 1 : $maxLogins; // Prevent division by zero
 ?>
     <h2>Unique Login Report</h2>
+    <form method="GET">
+        <label for="date">Select Date:</label>
+        <input type="date" id="date" name="date" value="<?php echo $selectedDate; ?>">
+        <button type="submit">Submit</button>
+    </form>
     <button class='filter-btn' onclick="filterData('daily')">Daily</button>
     <button class='filter-btn' onclick="filterData('weekly')">Weekly</button>
     <button class='filter-btn' onclick="filterData('monthly')">Monthly</button>
@@ -59,6 +65,14 @@
     </div>
 
     <script>
+    // Function to display all containers when the page loads
+    window.onload = function() {
+        var containers = document.getElementsByClassName('stats-container');
+        for (var i = 0; i < containers.length; i++) {
+            containers[i].style.display = 'block';
+        }
+    };
+
     function filterData(filter) {
         var containers = document.getElementsByClassName('stats-container');
         if (filter === 'all') {
