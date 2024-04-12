@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="css/post.css">;
     
 </head>
 <body>
@@ -11,9 +12,33 @@
 include 'navbar.php';
 include 'conn.php';
 
-echo '<link rel="stylesheet" href="css/post.css">';
 if (isset($_GET['id'])) {
     $post_id = $_GET['id'];
+
+    if (isset($_SESSION['id'])) {
+        $user_id = $_SESSION['id'];
+        $stmt = $conn->prepare("SELECT * FROM likes WHERE user_id = ? AND post_id = ?");
+        $stmt->bind_param('ii', $user_id, $post_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        // Check if a row exists for the current user and post
+        if ($result->num_rows > 0) {
+            // Display unlike button
+            echo '<form class="like-button" method="post" action="like.php">';
+            echo '<input type="hidden" name="post_id" value="' . $post_id . '">';
+            echo '<button type="submit">Unlike</button>';
+            echo '</form>';
+        } else {
+            // Display like button
+            echo '<form class="like-button" method="post" action="like.php">';
+            echo '<input type="hidden" name="post_id" value="' . $post_id . '">';
+            echo '<button type="submit">Like</button>';
+            echo '</form>';
+        }
+    }
+
+
     $stmt = $conn->prepare("SELECT p.*, u.username AS poster_username FROM post p JOIN user u ON p.user_id = u.id WHERE p.id = ?");
     $stmt->bind_param('i', $post_id);
     $stmt->execute();
@@ -24,7 +49,7 @@ if (isset($_GET['id'])) {
         
 
         echo '<div class="post">';
-        echo '<button id="myButton" class="float-left submit-button" >Category: ';
+        echo '<button class="float-left submit-button" >Category: ';
 
         switch ($post['category']) {
             case 1:
@@ -44,11 +69,13 @@ if (isset($_GET['id'])) {
         }
 
         echo '</button>';
+        
+        
         echo '<script type="text/javascript"> document.getElementById("myButton").onclick = function () {';
         echo 'location.href = "categories.php?category='.$post['category'].'";';
         echo '};';
         echo '</script>';
-
+        echo '<button style="padding-left:20px;">Likes: '.$post['likes'].'</button>';
         echo '<h2>' . htmlspecialchars($post['title']) . '</h2>';  
         echo '<p>' . nl2br(htmlspecialchars($post['body'])) . '</p>';
         echo '<p>Posted by: ' . htmlspecialchars($post['poster_username']) . '</p>';
