@@ -75,7 +75,7 @@
             echo '</div>';
 
             // Add button to toggle comments visibility
-            echo '<button id="toggleComments" type="button">Toggle Comments</button>';
+            echo '<button style="margin: 20px;" id="toggleComments" type="button">Toggle Comments</button>';
             echo '<div id="commentsSection" style="display: none;">';
             echo '<div class="comments-container"></div>';
             echo '</div>';
