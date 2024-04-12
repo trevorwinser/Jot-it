@@ -14,16 +14,7 @@ include 'verify-admin.php'; // Verify admin privileges
 $message = $_GET['message'] ?? '';  // Clever way to avoid dealing with if(isset())
 $user_id = $_GET['user_id'] ?? '';
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "jot-it";
-
-$conn = new mysqli($servername, $username_db, $password_db, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include 'conn.php';
 
 // Check if the user exists
 $stmt = $conn->prepare("SELECT id, username, enabled FROM user WHERE id = ?");

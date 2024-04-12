@@ -3,16 +3,7 @@ include 'verify-admin.php';
 
 if (isset($_GET['user_id'])) {
     $user_id = $_GET['user_id'];
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "jot-it";
-
-    $conn = new mysqli($servername, $username, $password, $dbname);
-
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+    include 'conn.php';
 
     $sql = "DELETE FROM user WHERE id = ?";
     $stmt = $conn->prepare($sql);

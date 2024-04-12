@@ -6,15 +6,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $commentText = filter_input(INPUT_POST, 'commentText', FILTER_SANITIZE_STRING);
         if ($postId && $commentText !== false && $commentText !== "") {
                 
-            $servername = "localhost";
-            $username = "root";
-            $password = "";
-            $dbname = "jot-it";
-
-            $conn = new mysqli($servername, $username, $password, $dbname);
-            if ($conn->connect_error) {
-                die("Connection failed: " . $conn->connect_error);
-            }
+            include 'conn.php';
             $userId = $_SESSION['id'];
             
             $dateTime = date('Y-m-d H:i:s');

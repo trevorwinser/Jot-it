@@ -12,7 +12,7 @@
 
     include 'navbar.php';
     include 'verify-login.php';
-
+    include 'conn.php';
     // Initialize message
     $message = '';
 
