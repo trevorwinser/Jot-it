@@ -96,7 +96,11 @@ function fetchNewPosts(search = '') {
             hasPosts = true; 
             const postDiv = document.createElement('div');
             postDiv.className = 'post';
-            let postContent = `<h2>${post.title}</h2><p>${post.body}</p><p>Likes: ${post.likes}</p>`;
+            let postContent = `<h2 style="display:flex;">${post.title}</h2><p>${post.body}</p><span class="likes">Likes: ${post.likes}`
+            if (post.likes > 2) {
+                postContent += "🔥";
+            }
+            postContent += "</span>";
             if (post.image) {
                 hasImagePosts = true; 
                 postContent += `<img src="${post.image}" alt="Post image" style="max-width:100%;">`;

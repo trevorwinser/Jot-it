@@ -128,3 +128,8 @@ textarea:focus {
     outline: 3px solid #76baff;
     outline-offset: 2px;
 }
+.likes {
+    position: relative;
+    left: 80%;
+    font-size: 14px;
+}
