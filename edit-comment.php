@@ -38,7 +38,7 @@ $conn->close();
         <p id="message"><?php echo $message; ?></p>
         <input type="hidden" name="comment_id" value="<?php echo $comment_id; ?>">
         <label for="body">Body:</label><br>
-        <textarea id="body" name="body" style="resize: vertical; overflow: auto; width:100%; min-height: 20px; max-height: 100px;><?php echo $comment['body']; ?></textarea><br><br>
+        <textarea id="body" name="body" style="resize: vertical; overflow: auto; width:100%; min-height: 20px; max-height: 100px;"><?php echo $comment['body']; ?></textarea><br><br>
         <input type="submit" value="Save">
     </form>
 </div>
