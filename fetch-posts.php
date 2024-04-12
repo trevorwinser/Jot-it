@@ -5,14 +5,29 @@ ini_set('display_errors', 1);
 
 include 'conn.php';
 
-if (isset($_GET['category'])) {
-    $category = (int) $_GET['category'];
-    $sql = "SELECT title, body, image, id, category FROM post WHERE category = ? ORDER BY date DESC LIMIT 5";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", ($category));
+if (isset($_GET['category']) && !empty($_GET['category'])) {
+    if (isset($_GET['search']) && !empty($_GET['search'])) {
+        $category = (int) $_GET['category'];
+        $search_query = '%'.$_GET['search'].'%';
+        $sql = "SELECT title, body, image, id, category FROM post WHERE category = ? AND (title LIKE ? OR body LIKE ?) ORDER BY date DESC LIMIT 10";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("iss", $category, $search_query, $search_query);
+    } else {
+        $category = (int) $_GET['category'];
+        $sql = "SELECT title, body, image, id, category FROM post WHERE category = ? ORDER BY date DESC LIMIT 10";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", ($category));
+    }
 } else {
-    $sql = "SELECT title, body, image, id, category FROM post ORDER BY date DESC LIMIT 5";
-    $stmt = $conn->prepare($sql);
+    if (isset($_GET['search']) && !empty($_GET['search'])) { 
+        $search_query = '%'.$_GET['search'].'%';
+        $sql = "SELECT title, body, image, id, category FROM post WHERE title LIKE ? OR body LIKE ? ORDER BY date DESC LIMIT 10";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ss", $search_query, $search_query);
+    } else {
+        $sql = "SELECT title, body, image, id, category FROM post ORDER BY date DESC LIMIT 10";
+        $stmt = $conn->prepare($sql);
+    }
 }
 
 

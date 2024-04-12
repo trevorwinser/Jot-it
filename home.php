@@ -8,7 +8,14 @@
 </head>
 <body>
     <?php 
-    include 'navbar.php'; ?>
+    include 'navbar.php'; 
+    if ($_SERVER['REQUEST_METHOD'] == "GET") {
+        if (isset($_GET['search'])) {
+            $search = $_GET['search'];
+            
+        }
+    }
+    ?>
     
     <main>
     <div class="sidebar">
@@ -46,29 +53,37 @@
         </div>
         <!-- End of Bookmarks Container -->
 
-                <!-- Search Form -->
-    <div class="search-container">
-            <form action="home.php" method="GET">
-            <input type="text" placeholder="Search posts..." name="search">
-            <button type="submit">Search</button>
-    </form>
+        <!-- Search Form -->
+        <div class="search-container">
+            <form id="searchForm" onsubmit="handleSearch(event)">
+                <input type="text" placeholder="Search posts..." name="search" id="searchInput">
+                <button type="submit">Search</button>
+            </form>
         </div>
     </div>
-        <div id="postboardContainer">
-            <div id="postboard"></div>
-            <div id="postboardImg"></div>
-        </div>
 
+
+    <div id="postboardContainer">
+        <div id="postboard"></div>
+        <div id="postboardImg"></div>
+    </div>
 
 
     </main>
 
 </body>
 
-    <script>
-    // Fetches posts and formats them to display
-    function fetchNewPosts() {
-    fetch('fetch-posts.php')
+<script>
+// Function to handle form submission
+function handleSearch(event) {
+    event.preventDefault(); // Prevent the form from submitting normally
+    const searchInput = document.getElementById('searchInput').value; // Get the value of the search input
+    fetchNewPosts(searchInput); // Call fetchNewPosts function with the search value
+}
+
+// Fetches posts and formats them to display
+function fetchNewPosts(search = '') {
+    fetch('fetch-posts.php?search=' + search)
     .then(response => response.json())
     .then(posts => {
         const postboard = document.getElementById('postboard');
@@ -102,10 +117,16 @@
     .catch(error => console.error('Error fetching new posts:', error));
 }
 
-fetchNewPosts();
-setInterval(fetchNewPosts, 10000);
-
-
+// Get the search query from the URL and call fetchNewPosts if search query exists
+const urlParams = new URLSearchParams(window.location.search);
+const search = urlParams.get('search');
+if (search) {
+    fetchNewPosts(search);
+    setInterval(fetchNewPosts, 10000, search); // Pass search as an argument to fetchNewPosts
+} else {
+    fetchNewPosts();
+    setInterval(fetchNewPosts, 10000);
+}
 </script>
 
 </html>

@@ -47,10 +47,10 @@
             </div>
             <!-- End of Bookmarks Container -->
             <div class="search-container">
-            <form action="home.php" method="GET">
-            <input type="text" placeholder="Search posts..." name="search">
-            <button type="submit">Search</button>
-    </form>
+            <form id="searchForm" onsubmit="handleSearch(event)">
+                <input type="text" placeholder="Search posts..." name="search" id="searchInput">
+                <button type="submit">Search</button>
+            </form>
         </div>
         </div>
         <div id="postboardContainer">
@@ -60,9 +60,16 @@
     </main>
     </body>
     <script>
+    function handleSearch(event) {
+        event.preventDefault(); // Prevent the form from submitting normally
+        const searchInput = document.getElementById('searchInput').value; // Get the value of the search input
+        const urlParams = new URLSearchParams(window.location.search);
+        const category = urlParams.get('category'); // Get the category value from the URL
+        fetchNewPosts(category, searchInput); // Call fetchNewPosts function with both category and search values
+    }
     // Fetches posts and formats them to display
-    function fetchNewPosts(category) {
-    fetch('fetch-posts.php?category='+category)
+    function fetchNewPosts(category ='', search='') {
+    fetch('fetch-posts.php?category='+category+'&search='+search)
     .then(response => response.json())
     .then(posts => {
         const postboard = document.getElementById('postboard');
@@ -99,9 +106,17 @@
 // Extract category value from URL
 const urlParams = new URLSearchParams(window.location.search);
 const category = urlParams.get('category');
+const search = urlParams.get('search');
+
+// Call fetchNewPosts function with both category and search query values
 if (category) {
-    fetchNewPosts(category);
-    setInterval(() => fetchNewPosts(category), 10000);
+    if (search) {
+        fetchNewPosts(category, search);
+        setInterval(() => fetchNewPosts(category, search), 10000);
+    } else {
+        fetchNewPosts(category);
+        setInterval(() => fetchNewPosts(category), 10000);
+    }
 }
 </script>
 
