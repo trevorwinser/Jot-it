@@ -27,32 +27,57 @@
     // Safely calculate max value to avoid division by zero
     $maxLogins = max($loginsToday, $loginsWeek, $loginsMonth);
     $maxLogins = ($maxLogins == 0) ? 1 : $maxLogins; // Prevent division by zero
-
-   // Visualization example:
-echo "<div style='margin-top: 20px;'>";
-echo "<div style='margin-bottom: 20px;'>
-    <strong>Unique Logins Today:</strong>
-    <div style='width: 100%; background-color: #f1f1f1;'>
-        <div style='width: " . ($loginsToday / max($loginsToday, $loginsWeek, $loginsMonth) * 100) . "%; background-color: #4CAF50; padding: 10px; color: white;'>" . $loginsToday . "</div>
-    </div>
-</div>";
-
-echo "<div style='margin-bottom: 20px;'>
-    <strong>Unique Logins This Week:</strong>
-    <div style='width: 100%; background-color: #f1f1f1;'>
-        <div style='width: " . ($loginsWeek / max($loginsToday, $loginsWeek, $loginsMonth) * 100) . "%; background-color: #2196F3; padding: 10px; color: white;'>" . $loginsWeek . "</div>
-    </div>
-</div>";
-
-echo "<div style='margin-bottom: 20px;'>
-    <strong>Unique Logins This Month:</strong>
-    <div style='width: 100%; background-color: #f1f1f1;'>
-        <div style='width: " . ($loginsMonth / max($loginsToday, $loginsWeek, $loginsMonth) * 100) . "%; background-color: #ff9800; padding: 10px; color: white;'>" . $loginsMonth . "</div>
-    </div>
-</div>";
-echo "</div>";
-
 ?>
+    <h2>Unique Login Report</h2>
+    <button class='filter-btn' onclick="filterData('daily')">Daily</button>
+    <button class='filter-btn' onclick="filterData('weekly')">Weekly</button>
+    <button class='filter-btn' onclick="filterData('monthly')">Monthly</button>
+    <button class='filter-btn' onclick="filterData('all')">All</button>
+
+    <!-- Visualization example -->
+    <div style='margin-top: 20px;'>
+        <div id="dailyContainer" class="stats-container" style="display: none;">
+            <strong>Unique Logins Today:</strong>
+            <div style='width: 100%; background-color: #f1f1f1;'>
+                <div style='width: <?php echo ($loginsToday / max($loginsToday, $loginsWeek, $loginsMonth) * 100) . "%"; ?>; background-color: #4CAF50; padding: 10px; color: white;'><?php echo $loginsToday; ?></div>
+            </div>
+        </div>
+
+        <div id="weeklyContainer" class="stats-container" style="display: none;">
+            <strong>Unique Logins This Week:</strong>
+            <div style='width: 100%; background-color: #f1f1f1;'>
+                <div style='width: <?php echo ($loginsWeek / max($loginsToday, $loginsWeek, $loginsMonth) * 100) . "%"; ?>; background-color: #2196F3; padding: 10px; color: white;'><?php echo $loginsWeek; ?></div>
+            </div>
+        </div>
+
+        <div id="monthlyContainer" class="stats-container" style="display: none;">
+            <strong>Unique Logins This Month:</strong>
+            <div style='width: 100%; background-color: #f1f1f1;'>
+                <div style='width: <?php echo ($loginsMonth / max($loginsToday, $loginsWeek, $loginsMonth) * 100) . "%"; ?>; background-color: #ff9800; padding: 10px; color: white;'><?php echo $loginsMonth; ?></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    function filterData(filter) {
+        var containers = document.getElementsByClassName('stats-container');
+        if (filter === 'all') {
+            for (var i = 0; i < containers.length; i++) {
+                containers[i].style.display = 'block';
+            }
+        } else {
+            for (var i = 0; i < containers.length; i++) {
+                containers[i].style.display = 'none';
+            }
+            var containerToShow = document.getElementById(filter + 'Container');
+            if (containerToShow) {
+                containerToShow.style.display = 'block';
+            }
+        }
+    }
+</script>
+
+
 
     <?php
     if (isset($_GET['delete_status'])) {
