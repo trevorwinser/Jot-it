@@ -14,10 +14,8 @@
             <!-- Profile Section -->
             <div class="profile-section">
                 <?php
-                    if (isset($_SESSION['profile_picture'])&&!empty($_SESSION['profile_picture']))
+                    if (isset($_SESSION['profile_picture']) && !empty($_SESSION['profile_picture'])) {
                         $profile_picture = $_SESSION['profile_picture'];
-                    
-                    if (isset($profile_picture)) {
                         echo '<img src="data:image/jpeg;base64,' . base64_encode($profile_picture) . '" alt="Profile Picture" id="profile-picture">';
                     } else {
                         echo '<img src="images/profile-icon.png" alt="Profile Picture" id="profile-picture">';
@@ -47,60 +45,61 @@
             </div>
             <!-- End of Bookmarks Container -->
             <div class="search-container">
-            <form id="searchForm" onsubmit="handleSearch(event)">
-                <input type="text" placeholder="Search posts..." name="search" id="searchInput">
-                <button type="submit">Search</button>
-            </form>
-        </div>
+                <form id="searchForm" onsubmit="handleSearch(event)">
+                    <input type="text" placeholder="Search posts..." name="search" id="searchInput">
+                    <button type="submit">Search</button>
+                </form>
+            </div>
         </div>
         <div id="postboardContainer">
             <div id="postboard"></div>
             <div id="postboardImg"></div>
         </div>
     </main>
-    </body>
-    <script>
-    function handleSearch(event) {
-        event.preventDefault(); // Prevent the form from submitting normally
-        const searchInput = document.getElementById('searchInput').value; // Get the value of the search input
-        const urlParams = new URLSearchParams(window.location.search);
-        const category = urlParams.get('category'); // Get the category value from the URL
-        fetchNewPosts(category, searchInput); // Call fetchNewPosts function with both category and search values
-    }
-    // Fetches posts and formats them to display
-    function fetchNewPosts(category ='', search='') {
-    fetch('fetch-posts.php?category='+category+'&search='+search)
-    .then(response => response.json())
-    .then(posts => {
-        const postboard = document.getElementById('postboard');
-        const postboardImg = document.getElementById('postboardImg');
-        postboard.innerHTML = ''; 
-        postboardImg.innerHTML = ''; 
-        let hasPosts = false; 
-        let hasImagePosts = false; 
+</body>
+<script>
+function handleSearch(event) {
+    event.preventDefault(); // Prevent the form from submitting normally
+    const searchInput = document.getElementById('searchInput').value; // Get the value of the search input
+    const urlParams = new URLSearchParams(window.location.search);
+    const category = urlParams.get('category'); // Get the category value from the URL
+    fetchNewPosts(category, searchInput); // Call fetchNewPosts function with both category and search values
+}
 
-        posts.forEach(post => {
-            hasPosts = true; 
-            const postDiv = document.createElement('div');
-            postDiv.className = 'post';
-            let postContent = `<h2>${post.title}</h2><p>${post.body}</p>`;
-            if (post.image) {
-                hasImagePosts = true; 
-                postContent += `<img src="${post.image}" alt="Post image" style="max-width:100%;">`;
-                postDiv.innerHTML = postContent;
-                postDiv.addEventListener('click', () => {window.location.href = 'postDetails.php?id=' + post.id;});
-                postboardImg.appendChild(postDiv); 
-            } else {
-                postDiv.innerHTML = postContent;
-                postDiv.addEventListener('click', () =>   {window.location.href = 'postDetails.php?id=' + post.id;});
-                postboard.appendChild(postDiv); 
-            }
-        });
+// Fetches posts and formats them to display
+function fetchNewPosts(category = '', search = '') {
+    fetch('fetch-posts.php?category=' + category + '&search=' + search)
+        .then(response => response.json())
+        .then(posts => {
+            const postboard = document.getElementById('postboard');
+            const postboardImg = document.getElementById('postboardImg');
+            postboard.innerHTML = '';
+            postboardImg.innerHTML = '';
+            let hasPosts = false;
+            let hasImagePosts = false;
 
-        postboard.style.display = hasPosts ? 'block' : 'none';
-        postboardImg.style.display = hasImagePosts ? 'block' : 'none';
-    })
-    .catch(error => console.error('Error fetching new posts:', error));
+            posts.forEach(post => {
+                hasPosts = true;
+                const postDiv = document.createElement('div');
+                postDiv.className = 'post';
+                let postContent = `<h2>${post.title}</h2><p>${post.body}</p><p>Likes: ${post.likes}</p>`;
+                if (post.image) {
+                    hasImagePosts = true;
+                    postContent += `<img src="${post.image}" alt="Post image" style="max-width:100%;">`;
+                    postDiv.innerHTML = postContent;
+                    postDiv.addEventListener('click', () => { window.location.href = 'postDetails.php?id=' + post.id; });
+                    postboardImg.appendChild(postDiv);
+                } else {
+                    postDiv.innerHTML = postContent;
+                    postDiv.addEventListener('click', () => { window.location.href = 'postDetails.php?id=' + post.id; });
+                    postboard.appendChild(postDiv);
+                }
+            });
+
+            postboard.style.display = hasPosts ? 'block' : 'none';
+            postboardImg.style.display = hasImagePosts ? 'block' : 'none';
+        })
+        .catch(error => console.error('Error fetching new posts:', error));
 }
 
 // Extract category value from URL
