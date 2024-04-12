@@ -34,6 +34,9 @@
                 <textarea rows="5" class="form-control" name="post" id="post" maxlength="3000" required></textarea>
             </div>
             <div>
+                <button id="toggleCategory" type="button">Toggle Category</button>
+                <div id="categoryDropdown" style="display: none;">
+                <label for="category">Category</label><br>
                 <select name="category" required>
                     <option value="0">Select category</option>
                     <option value="1">Art</option>
@@ -41,6 +44,7 @@
                     <option value="3">Sports</option>
                     <option value="4">Travel</option>
                 </select>
+                </div>
             </div>
             <br>
             <button type="submit">Submit</button>
@@ -49,6 +53,11 @@
         </form>
     </div>
     <script>
+        document.getElementById('toggleCategory').addEventListener('click', function() {
+            var categoryDropdown = document.getElementById('categoryDropdown');
+            categoryDropdown.style.display = (categoryDropdown.style.display === 'none') ? 'block' : 'none';
+        });
+
         document.getElementById('createPostForm').addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent the default form submission
     
