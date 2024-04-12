@@ -94,6 +94,8 @@
 
 
     <?php
+    include 'conn.php';
+    
     if (isset($_GET['delete_status'])) {
         if ($_GET['delete_status'] === "success") {
             echo "<script>alert('User deleted successfully.');</script>";
