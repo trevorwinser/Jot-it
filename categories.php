@@ -51,6 +51,8 @@
                 </form>
             </div>
         </div>
+
+        <div id="refreshTimer"></div>
         <div id="postboardContainer">
             <div id="postboard"></div>
             <div id="postboardImg"></div>
@@ -58,16 +60,42 @@
     </main>
 </body>
 <script>
+const countdownElement = document.getElementById('refreshTimer');
+let countdownInterval;
+
+function startCountdown() {
+    let timeLeft = 10;
+
+    countdownInterval = setInterval(() => {
+        timeLeft--;
+        if (timeLeft < 0) {
+            clearInterval(countdownInterval);
+            fetchNewPosts();
+            startCountdown();
+        } else {
+            updateCountdownDisplay(timeLeft);
+        }
+    }, 1000);
+}
+
+function updateCountdownDisplay(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    const formattedTime = `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+    countdownElement.textContent = `Next update in ${formattedTime}`;
+}
+
 function handleSearch(event) {
     event.preventDefault(); // Prevent the form from submitting normally
     const searchInput = document.getElementById('searchInput').value; // Get the value of the search input
-    const urlParams = new URLSearchParams(window.location.search);
-    const category = urlParams.get('category'); // Get the category value from the URL
-    fetchNewPosts(category, searchInput); // Call fetchNewPosts function with both category and search values
+    fetchNewPosts(searchInput); // Call fetchNewPosts function with search value
 }
 
 // Fetches posts and formats them to display
-function fetchNewPosts(category = '', search = '') {
+function fetchNewPosts(search = '') {
+    const urlParams = new URLSearchParams(window.location.search);
+    const category = urlParams.get('category'); // Get the category value from the URL
+
     fetch('fetch-posts.php?category=' + category + '&search=' + search)
         .then(response => response.json())
         .then(posts => {
@@ -106,21 +134,21 @@ function fetchNewPosts(category = '', search = '') {
         .catch(error => console.error('Error fetching new posts:', error));
 }
 
-// Extract category value from URL
-const urlParams = new URLSearchParams(window.location.search);
-const category = urlParams.get('category');
-const search = urlParams.get('search');
+// Call fetchNewPosts function when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    fetchNewPosts();
+    startCountdown();
+});
 
-// Call fetchNewPosts function with both category and search query values
-if (category) {
-    if (search) {
-        fetchNewPosts(category, search);
-        setInterval(() => fetchNewPosts(category, search), 10000);
-    } else {
-        fetchNewPosts(category);
-        setInterval(() => fetchNewPosts(category), 10000);
-    }
-}
+// Call fetchNewPosts function when the category or search query changes
+window.addEventListener('popstate', () => {
+    fetchNewPosts();
+});
+
+// Call fetchNewPosts function when search form is submitted
+const searchForm = document.getElementById('searchForm');
+searchForm.addEventListener('submit', handleSearch);
 </script>
+
 
 </html>
