@@ -49,7 +49,7 @@
                             $stmt->bind_param("bs", $null, $username);
                             $stmt->send_long_data(0, $imageData); 
                             if ($stmt->execute()) {
-                                $message = 'Profile updated successfully';
+                                header("Location: profile.php");
                             } else {
                                 $message = 'Failed to update image';
                             }
