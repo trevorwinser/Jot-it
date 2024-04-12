@@ -8,24 +8,24 @@ include 'conn.php';
 if (isset($_GET['category']) && !empty($_GET['category'])) {
     if (isset($_GET['search']) && !empty($_GET['search'])) {
         $category = (int) $_GET['category'];
-        $search_query = '%'.$_GET['search'].'%';
-        $sql = "SELECT title, body, image, id, category FROM post WHERE category = ? AND (title LIKE ? OR body LIKE ?) ORDER BY date DESC LIMIT 10";
+        $search_query = '%' . $_GET['search'] . '%';
+        $sql = "SELECT title, body, image, id, category, likes FROM post WHERE category = ? AND (title LIKE ? OR body LIKE ?) ORDER BY date DESC LIMIT 10";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("iss", $category, $search_query, $search_query);
     } else {
         $category = (int) $_GET['category'];
-        $sql = "SELECT title, body, image, id, category FROM post WHERE category = ? ORDER BY date DESC LIMIT 10";
+        $sql = "SELECT title, body, image, id, category, likes FROM post WHERE category = ? ORDER BY date DESC LIMIT 10";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("i", ($category));
+        $stmt->bind_param("i", $category);
     }
 } else {
-    if (isset($_GET['search']) && !empty($_GET['search'])) { 
-        $search_query = '%'.$_GET['search'].'%';
-        $sql = "SELECT title, body, image, id, category FROM post WHERE title LIKE ? OR body LIKE ? ORDER BY date DESC LIMIT 10";
+    if (isset($_GET['search']) && !empty($_GET['search'])) {
+        $search_query = '%' . $_GET['search'] . '%';
+        $sql = "SELECT title, body, image, id, category, likes FROM post WHERE title LIKE ? OR body LIKE ? ORDER BY date DESC LIMIT 10";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("ss", $search_query, $search_query);
     } else {
-        $sql = "SELECT title, body, image, id, category FROM post ORDER BY date DESC LIMIT 10";
+        $sql = "SELECT title, body, image, id, category, likes FROM post ORDER BY date DESC LIMIT 10";
         $stmt = $conn->prepare($sql);
     }
 }

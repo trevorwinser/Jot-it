@@ -34,8 +34,9 @@ if(isset($_SESSION['id'])) {
             exit();
         } else {
             // If no row exists, insert a new row (like)
-            $insert_stmt = $conn->prepare("INSERT INTO likes (user_id, post_id) VALUES (?, ?)");
-            $insert_stmt->bind_param('ii', $user_id, $post_id);
+            $insert_stmt = $conn->prepare("INSERT INTO likes (user_id, post_id, date) VALUES (?, ?, ?)");
+            $datetime = date('Y-m-d H:i:s');
+            $insert_stmt->bind_param('iis', $user_id, $post_id, $datetime);
             $insert_stmt->execute();
 
             // Increment likes counter in the post table

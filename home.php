@@ -12,7 +12,6 @@
     if ($_SERVER['REQUEST_METHOD'] == "GET") {
         if (isset($_GET['search'])) {
             $search = $_GET['search'];
-            
         }
     }
     ?>
@@ -22,7 +21,7 @@
         <!-- Profile Section -->
         <div class="profile-section">
                     <?php 
-                    if (isset($_SESSION['profile_picture'])&&!empty($_SESSION['profile_picture'])) {
+                    if (isset($_SESSION['profile_picture']) && !empty($_SESSION['profile_picture'])) {
                         $base64Image = base64_encode($_SESSION['profile_picture']);
                         echo '<img src="data:image/jpeg;base64,' . $base64Image . '" alt="Profile Picture" id="profile-picture">';
                     } else {
@@ -97,7 +96,7 @@ function fetchNewPosts(search = '') {
             hasPosts = true; 
             const postDiv = document.createElement('div');
             postDiv.className = 'post';
-            let postContent = `<h2>${post.title}</h2><p>${post.body}</p>`;
+            let postContent = `<h2>${post.title}</h2><p>${post.body}</p><p>Likes: ${post.likes}</p>`;
             if (post.image) {
                 hasImagePosts = true; 
                 postContent += `<img src="${post.image}" alt="Post image" style="max-width:100%;">`;
@@ -130,4 +129,3 @@ if (search) {
 </script>
 
 </html>
-
