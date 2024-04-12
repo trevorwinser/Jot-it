@@ -53,3 +53,8 @@ h3 {
 .like-button {
     margin:20px;
 }
+
+a {
+    text-decoration: none; 
+    color: black;
+}

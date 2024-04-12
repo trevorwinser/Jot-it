@@ -47,8 +47,7 @@
             $post = $result->fetch_assoc();
 
             echo '<div class="post">';
-            echo '<button class="float-left submit-button" id="myButton">Category: ';
-
+            echo '<button><a href="categories.php?category=' . $post['category'] . '" class="float-left submit-button" id="myButton">Category: ';
             switch ($post['category']) {
                 case 1:
                     echo 'Art';
@@ -65,9 +64,7 @@
                 default:
                     echo 'Unknown';
             }
-
-            echo '</button>';
-
+            echo '</a></button>';
             echo '<button style="padding-left:20px;">Likes: '.$post['likes'].'</button>';
             echo '<h2>' . htmlspecialchars($post['title']) . '</h2>';
             echo '<p>' . nl2br(htmlspecialchars($post['body'])) . '</p>';
