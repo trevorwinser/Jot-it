@@ -2,4 +2,4 @@
 
 ## cosc 360 project
 
-We will clean up our repo once we are done creating our website.
+Jot-it is a forum for posting your art
